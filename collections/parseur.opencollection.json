@@ -1,0 +1,855 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Parseur",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Default",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List documents in a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/parser/:id/document_set",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (default is 1)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default is 25)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive partial match search"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Field name to order by (use -prefix for descending)"
+              },
+              {
+                "name": "received_after",
+                "value": "",
+                "type": "query",
+                "description": "Filter documents received after this date (yyyy-mm-dd)"
+              },
+              {
+                "name": "received_before",
+                "value": "",
+                "type": "query",
+                "description": "Filter documents received before this date (yyyy-mm-dd)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter documents by status"
+              },
+              {
+                "name": "tz",
+                "value": "",
+                "type": "query",
+                "description": "Timezone for date filters (e.g. Asia%2FSingapore). Defaults to UTC."
+              },
+              {
+                "name": "with_result",
+                "value": "",
+                "type": "query",
+                "description": "Include parsed result string with each document"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List documents in a mailbox"
+        },
+        {
+          "info": {
+            "name": "Get a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/document/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{DOCUMENT_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a document"
+        },
+        {
+          "info": {
+            "name": "Delete a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.parseur.com/document/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{DOCUMENT_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a document"
+        },
+        {
+          "info": {
+            "name": "Get document logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/document/:id/log_set",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{DOCUMENT_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (default is 1)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default is 25)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive partial match search"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Field name to order by (use -prefix for descending)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get document logs"
+        },
+        {
+          "info": {
+            "name": "Skip a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/document/:id/skip",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{DOCUMENT_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Skip a document"
+        },
+        {
+          "info": {
+            "name": "List mailboxes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/parser",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination (default is 1)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default is 25)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Case-insensitive partial match search"
+              },
+              {
+                "name": "ordering",
+                "value": "",
+                "type": "query",
+                "description": "Field name to order by (use -prefix for descending)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Optional query parameters for pagination and filtering"
+        },
+        {
+          "info": {
+            "name": "Create a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/parser",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a mailbox"
+        },
+        {
+          "info": {
+            "name": "Get a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/parser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a mailbox"
+        },
+        {
+          "info": {
+            "name": "Update a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.parseur.com/parser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a mailbox"
+        },
+        {
+          "info": {
+            "name": "Get mailbox schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/parser/:id/schema",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get mailbox schema"
+        },
+        {
+          "info": {
+            "name": "List custom downloads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/parser/:id/export_config",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List custom downloads"
+        },
+        {
+          "info": {
+            "name": "Create a custom download",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/parser/:id/export_config",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a custom download"
+        },
+        {
+          "info": {
+            "name": "Update a custom download",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.parseur.com/parser/:mailbox_id/export_config/:id",
+            "params": [
+              {
+                "name": "mailbox_id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "{{EXPORT_CONFIG_ID}}",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update a custom download"
+        },
+        {
+          "info": {
+            "name": "Delete a custom download",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.parseur.com/parser/:mailbox_id/export_config/:id",
+            "params": [
+              {
+                "name": "mailbox_id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "{{EXPORT_CONFIG_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a custom download"
+        },
+        {
+          "info": {
+            "name": "List templates in a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/parser/:id/template_set",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List templates in a mailbox"
+        },
+        {
+          "info": {
+            "name": "Get a template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/template/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{TEMPLATE_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get a template"
+        },
+        {
+          "info": {
+            "name": "Delete a template",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.parseur.com/template/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{TEMPLATE_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a template"
+        },
+        {
+          "info": {
+            "name": "Create a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/webhook",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a webhook"
+        },
+        {
+          "info": {
+            "name": "Enable a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/parser/:mailbox_id/webhook_set/:id",
+            "params": [
+              {
+                "name": "mailbox_id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "{{WEBHOOK_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Enable a webhook"
+        },
+        {
+          "info": {
+            "name": "Disable a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.parseur.com/parser/:mailbox_id/webhook_set/:id",
+            "params": [
+              {
+                "name": "mailbox_id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "{{WEBHOOK_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Disable a webhook"
+        },
+        {
+          "info": {
+            "name": "Delete a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.parseur.com/webhook/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "160",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a webhook"
+        },
+        {
+          "info": {
+            "name": "Get bootstrap config",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.parseur.com/bootstrap"
+          },
+          "docs": "Get bootstrap config"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "async",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload a binary document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/parser/:id/upload",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upload a binary document"
+        },
+        {
+          "info": {
+            "name": "Upload an email/text document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Upload an email/text document"
+        },
+        {
+          "info": {
+            "name": "Reprocess a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/document/:id/process",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{DOCUMENT_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Reprocess a document"
+        },
+        {
+          "info": {
+            "name": "Copy a document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/document/:id/copy/:target_mailbox_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{DOCUMENT_ID}}",
+                "type": "path"
+              },
+              {
+                "name": "target_mailbox_id",
+                "value": "{{OTHER_PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Copy a document"
+        },
+        {
+          "info": {
+            "name": "Delete a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.parseur.com/parser/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Delete a mailbox"
+        },
+        {
+          "info": {
+            "name": "Copy a mailbox",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/parser/:id/copy",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{PARSER_ID}}11",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Copy a mailbox"
+        },
+        {
+          "info": {
+            "name": "Copy a template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.parseur.com/template/:id/copy/:target_mailbox_id",
+            "params": [
+              {
+                "name": "id",
+                "value": "{{TEMPLATE_ID}}111",
+                "type": "path"
+              },
+              {
+                "name": "target_mailbox_id",
+                "value": "{{OTHER_PARSER_ID}}",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Copy a template"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

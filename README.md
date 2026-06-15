@@ -1,104 +1,97 @@
-# Parseur
+# Parseur (parseur)
 
-AI-powered document and email parsing platform that automatically extracts structured data from PDFs, emails, scans, and arbitrary file uploads, then routes JSON / CSV / Excel records into downstream systems via webhooks, native integrations, or its REST API. Headquartered in Singapore, Parseur combines Vision AI, Text AI, template-based extraction, OCR, normalization, and field validation behind a per-mailbox forwarding email address, and connects to 1,000+ applications including Zapier, Make, n8n, Power Automate, Google Sheets, Airtable, Salesforce, Excel, and Slack.
+Parseur is an AI-powered document and email parsing platform headquartered in Singapore that automatically extracts structured data from PDFs, emails, scanned documents, and arbitrary file uploads, then routes the resulting JSON, CSV, or Excel records into downstream systems via webhooks, native integrations, or its REST API. The platform combines Vision AI, Text AI, template-based extraction, OCR, normalization, and field validation behind a forwarding email address per mailbox, and connects to more than 1,000 applications including Zapier, Make, n8n, Power Automate, Google Sheets, Airtable, Salesforce, Excel, and Slack. Parseur exposes a public REST API at https://api.parseur.com with an OpenAPI 3.1 specification covering mailbox (parser) management, document upload and lifecycle, templates, custom export configurations, and webhook subscriptions, secured with a per-account Token-based Authorization header. Pricing is volume-based on pages processed, with a permanent free tier (20 pages/month) and Base, Scale, and Enterprise tiers that scale up to 10 million pages per month.
 
-- Website: https://parseur.com
-- App / Portal: https://app.parseur.com
-- Developer Documentation: https://developer.parseur.com/
-- Support Center: https://help.parseur.com/
-- OpenAPI Specification: https://api.parseur.com/openapi.json
-- API Keys: https://app.parseur.com/account/api-keys
-- Pricing: https://parseur.com/pricing
-- Status: https://status.parseur.com
-- GitHub: https://github.com/parseur
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/parseur/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/parseur/refs/heads/main/apis.yml)
 
-## API
+## Scope
 
-| Property | Value |
-|---|---|
-| Name | Parseur API |
-| Base URL | `https://api.parseur.com` |
-| OpenAPI | [`openapi/parseur-openapi.yml`](openapi/parseur-openapi.yml) (source: https://api.parseur.com/openapi.json) |
-| Spec version | OpenAPI 3.1.0 |
-| Authentication | `Authorization: Token <API_KEY>` header |
-| Rate Limits | 5 req/sec per IP, burst 20 (HTTP 429 on excess) |
-| Operations | 29 across mailboxes (parsers), documents, templates, webhooks, exports, bootstrap |
+- **Type:** Index
+- **Position:** Provider
+- **Access:** 3rd-Party
 
-### Operation Surface
+## Tags
 
-**Documents**
+- AI
+- Artificial Intelligence
+- Document Parsing
+- Document Processing
+- Document Extraction
+- Email Parsing
+- OCR
+- Data Extraction
+- Vision AI
+- Automation
+- Webhooks
+- Mailboxes
+- SaaS
 
-- `GET /parser/{id}/document_set` — List documents in a mailbox
-- `GET /document/{id}` — Get a document
-- `DELETE /document/{id}` — Delete a document
-- `GET /document/{id}/log_set` — Get document logs
-- `POST /parser/{id}/upload` — Upload a binary document
-- `POST /email` — Upload an email/text document
-- `POST /document/{id}/process` — Reprocess a document
-- `POST /document/{id}/skip` — Skip a document
-- `POST /document/{id}/copy/{target_mailbox_id}` — Copy a document
+## Timestamps
 
-**Mailboxes (Parsers)**
+- **Created:** 2026-05-25
+- **Modified:** 2026-05-25
 
-- `GET /parser` — List mailboxes
-- `POST /parser` — Create a mailbox
-- `GET /parser/{id}` — Get a mailbox
-- `PUT /parser/{id}` — Update a mailbox
-- `DELETE /parser/{id}` — Delete a mailbox
-- `GET /parser/{id}/schema` — Get mailbox schema
-- `POST /parser/{id}/copy` — Copy a mailbox
+## APIs
 
-**Templates**
+### Parseur API
 
-- `GET /parser/{id}/template_set` — List templates in a mailbox
-- `GET /template/{id}` — Get a template
-- `DELETE /template/{id}` — Delete a template
-- `POST /template/{id}/copy/{target_mailbox_id}` — Copy a template
+The Parseur REST API exposes 29 operations across mailboxes (parsers), documents, templates, custom downloads (export configs), webhooks, and account bootstrap. Documents can be ingested as binary uploads to /parser/{id}/upload or as email/text payloads to /email; parsing is asynchronous, with results retrievable via /document/{id} once status transitions to processed. Webhooks deliver real-time events to your endpoint and can be enabled/disabled per mailbox. Authentication uses a Token-prefixed Authorization header carrying the account API key from the Parseur Account Overview. Base URL is https://api.parseur.com and rate limits are 5 requests/second per IP with a burst of 20.
 
-**Custom Downloads (Export Configs)**
+- **Human URL:** [https://developer.parseur.com/](https://developer.parseur.com/)
+- **Base URL:** `https://api.parseur.com`
 
-- `GET /parser/{id}/export_config` — List custom downloads
-- `POST /parser/{id}/export_config` — Create a custom download
-- `PATCH /parser/{mailbox_id}/export_config/{id}` — Update a custom download
-- `DELETE /parser/{mailbox_id}/export_config/{id}` — Delete a custom download
+#### Tags
 
-**Webhooks**
+- Documents
+- Mailboxes
+- Templates
+- Webhooks
+- Exports
+- AI
+- OCR
 
-- `POST /webhook` — Create a webhook
-- `POST /parser/{mailbox_id}/webhook_set/{id}` — Enable a webhook
-- `DELETE /parser/{mailbox_id}/webhook_set/{id}` — Disable a webhook
-- `DELETE /webhook/{id}` — Delete a webhook
+#### Properties
 
-**Bootstrap**
+- [Documentation](https://developer.parseur.com/)
+- [Documentation](https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api)
+- [Documentation](https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api)
+- [OpenAPI](openapi/parseur-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/parseur.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/parseur.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [SDK](https://github.com/parseur/parseur-py)
+- [Authentication](https://developer.parseur.com/)
+- [Rate Limits](https://developer.parseur.com/)
+- [Webhooks](https://developer.parseur.com/)
 
-- `GET /bootstrap` — Get bootstrap config
+## Common Properties
 
-## SDKs and Tooling
+- [Website](https://parseur.com)
+- [Portal](https://app.parseur.com)
+- [Sign Up](https://app.parseur.com/accounts/signup/)
+- [Login](https://app.parseur.com/accounts/login/)
+- [Documentation](https://developer.parseur.com/)
+- [Support Center](https://help.parseur.com/)
+- [OpenAPI](https://api.parseur.com/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [A P I Keys](https://app.parseur.com/account/api-keys)
+- [About](https://parseur.com/about)
+- [Blog](https://parseur.com/blog/)
+- [Pricing](https://parseur.com/pricing)
+- [Integrations](https://parseur.com/integrations)
+- [Contact](https://parseur.com/contact)
+- [Careers](https://parseur.com/jobs)
+- [Terms of Service](https://parseur.com/terms)
+- [Privacy Policy](https://parseur.com/privacy)
+- [Security](https://help.parseur.com/en/articles/4578268-security-and-privacy-at-parseur)
+- [Status Page](https://status.parseur.com)
+- [Git Hub](https://github.com/parseur)
+- [Twitter](https://twitter.com/parseur)
+- [LinkedIn](https://www.linkedin.com/company/parseur.com)
+- [YouTube](https://www.youtube.com/@parseur)
+- [Reddit](https://www.reddit.com/r/Parseur/)
+- [Plans](https://parseur.com/pricing)
+- [Rate Limits](https://developer.parseur.com/)
 
-- [parseur-py](https://github.com/parseur/parseur-py) — Official Python client (MIT).
-- [parseur-n8n-node](https://github.com/parseur/parseur-n8n-node) — Official n8n community node (MIT, TypeScript).
+## Maintainers
 
-## Pricing
-
-Volume-based on pages processed (1 credit = 1 page).
-
-| Plan | Pages / month | Price | Notes |
-|---|---|---|---|
-| Free | 20 | $0 | Forever free, credits valid 1 year, 90-day retention |
-| Base | up to 3,000 | Variable | 1-year retention, chat + email support |
-| Scale | up to 1,000,000 | Variable | Lowest cost per page, advanced post-processing, up to 100 users, unlimited retention |
-| Enterprise | up to 10,000,000 | Custom | Unlimited users, POs, custom terms, security questionnaire |
-
-## Repository Layout
-
-```
-parseur/
-├── apis.yml                              # API Commons profile (APIs.json 0.20)
-├── README.md                             # This file
-└── openapi/
-    └── parseur-openapi.yml               # Parseur OpenAPI 3.1 (mirrored from api.parseur.com)
-```
-
-## Maintainer
-
-Kin Lane — kin@apievangelist.com — API Evangelist Network
+**FN:** Kin Lane
+**Email:** kin@apievangelist.com

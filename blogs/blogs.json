@@ -2,13 +2,20 @@
   "repo": "parseur",
   "feeds": [
     {
-      "source": "https://parseur.com/about",
+      "source": "https://parseur.com/feed.xml",
       "feed_url": "https://parseur.com/feed.xml",
       "title": "",
       "saved": 28,
+      "method": "feed"
+    },
+    {
+      "source": "https://parseur.com/about",
+      "feed_url": "https://parseur.com/feed.xml",
+      "title": "",
+      "saved": 0,
       "method": "discovered"
     }
   ],
-  "post_count": 28,
-  "fetched": "2026-06-01T23:35:02Z"
+  "post_count": 58,
+  "fetched": "2026-06-14T20:42:17Z"
 }
