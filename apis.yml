@@ -71,7 +71,7 @@ apis:
         url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
       - type: OpenAPI
         url: openapi/parseur-openapi.yml
-      - type: SDK
+      - type: SDKs
         url: https://github.com/parseur/parseur-py
         name: parseur-py (Python)
       - type: Authentication
@@ -85,7 +85,7 @@ common:
     url: https://parseur.com
   - type: Portal
     url: https://app.parseur.com
-  - type: SignUp
+  - type: Signup
     url: https://app.parseur.com/accounts/signup/
   - type: Login
     url: https://app.parseur.com/accounts/login/
