@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/parseur-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: TokenAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Use header: Authorization: Token YOUR_API_KEY. API keys are here: https://app.parseur.com/account/api-keys'
+  sources:
+  - openapi/parseur-openapi.yml

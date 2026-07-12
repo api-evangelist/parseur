@@ -81,6 +81,12 @@ apis:
       - type: Webhooks
         url: https://developer.parseur.com/
 common:
+  - type: VulnerabilityDisclosure
+    url: security/parseur-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/parseur-domain-security.yml
+  - type: Authentication
+    url: authentication/parseur-authentication.yml
   - type: Website
     url: https://parseur.com
   - type: Portal
