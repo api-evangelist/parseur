@@ -81,6 +81,8 @@ apis:
       - type: Webhooks
         url: https://developer.parseur.com/
 common:
+  - type: AgenticAccess
+    url: agentic-access/parseur-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/parseur-vulnerability-disclosure.yml
   - type: DomainSecurity
