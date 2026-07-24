@@ -1,0 +1,509 @@
+openapi: 3.1.0
+info:
+  title: Parseur async API
+  description: ''
+  version: 1.0.0
+servers:
+- url: https://api.parseur.com
+  description: Parseur API
+security:
+- TokenAuth: []
+tags:
+- name: async
+paths:
+  /parser/{id}/upload:
+    post:
+      summary: Upload a binary document
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  example: ''
+              required:
+              - file
+            examples: {}
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    const: OK
+                    readOnly: true
+                  attachments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          readOnly: true
+                        DocumentID:
+                          type: string
+                          readOnly: true
+                      readOnly: true
+                    readOnly: true
+                required:
+                - message
+                - attachments
+              example:
+                message: OK
+                attachments:
+                - name: document.pdf
+                  DocumentID: 123456c9ae4f123eb923e9c789f385f4
+          headers: {}
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              examples:
+                '2':
+                  summary: Parser id not found
+                  value:
+                    non_field_errors: Parser 123456 not found.
+                '3':
+                  summary: Unsupported file type
+                  value:
+                    non_field_errors: 'Unsupported content type: ''application/zlib'': archive.dmg'
+                '4':
+                  summary: Empty or malformed request
+                  value:
+                    non_field_errors: File upload should be done using multipart/form-data
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+      security:
+      - TokenAuth: []
+  /email:
+    post:
+      summary: Upload an email/text document
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subject:
+                  type: string
+                from:
+                  type: string
+                recipient:
+                  type: string
+                to:
+                  type: string
+                cc:
+                  type: string
+                bcc:
+                  type: string
+                body_html:
+                  type: string
+                body_plain:
+                  type: string
+                message_headers:
+                  type: array
+                  items:
+                    type: array
+                    items:
+                      type: string
+                    minItems: 2
+                    maxItems: 2
+              required:
+              - subject
+              - from
+              - recipient
+            example:
+              subject: The title of your document, or email subject
+              from: Sender Name <sender.name@example.com>
+              recipient: test.api@in.dev.parseur.com
+              to: to.name@example.com, Another Name <another.name@example.com>
+              cc: cc.name@example.com
+              bcc: other.mailbox@in.parseur.com
+              body_html: <html><body>Document content as HTML. This one has priority over text content if both are present.</body></html>
+              body_plain: Document content as text. This one is only used if body_html is empty.
+              message_headers:
+              - - Standard-SMTP-Header
+                - Any usual email header goes here
+      responses:
+        '201':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    const: OK
+                required:
+                - message
+              example:
+                message: OK
+          headers: {}
+      security: []
+  /document/{id}/process:
+    post:
+      summary: Reprocess a document
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{DOCUMENT_ID}}'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Reprocessed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification_set:
+                    type: object
+                    properties:
+                      info:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                    - info
+                required:
+                - notification_set
+              example:
+                notification_set:
+                  info:
+                  - Document is being processed. Please wait.
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          $ref: '#/components/responses/Not Found'
+          description: ''
+      security:
+      - TokenAuth: []
+  /document/{id}/copy/{target_mailbox_id}:
+    post:
+      summary: Copy a document
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{DOCUMENT_ID}}'
+        schema:
+          type: string
+      - name: target_mailbox_id
+        in: path
+        description: ''
+        required: true
+        example: '{{OTHER_PARSER_ID}}'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Copied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification_set:
+                    type: object
+                    properties:
+                      info:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                    - info
+                required:
+                - notification_set
+              example:
+                notification_set:
+                  info:
+                  - Document is being copied. New copy will show up in a few seconds.
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          $ref: '#/components/responses/Not Found'
+          description: ''
+      security:
+      - TokenAuth: []
+  /parser/{id}:
+    delete:
+      summary: Delete a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification_set:
+                    type: object
+                    properties:
+                      info:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                    - info
+                required:
+                - notification_set
+              example:
+                notification_set:
+                  info:
+                  - Mailbox is being deleted. This can take a while.
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: No Parser matches the given query.
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser/{id}/copy:
+    post:
+      summary: Copy a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}11'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Mailbox duplicated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification_set:
+                    type: object
+                    properties:
+                      info:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                    - info
+                required:
+                - notification_set
+              example:
+                notification_set:
+                  info:
+                  - Mailbox is being copied. New copy will show up in a few minutes.
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Mailbox not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: ''
+          headers: {}
+      security:
+      - TokenAuth: []
+  /template/{id}/copy/{target_mailbox_id}:
+    post:
+      summary: Copy a template
+      deprecated: false
+      description: ''
+      tags:
+      - async
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{TEMPLATE_ID}}111'
+        schema:
+          type: integer
+      - name: target_mailbox_id
+        in: path
+        description: ''
+        required: true
+        example: '{{OTHER_PARSER_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Copied
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification_set:
+                    type: object
+                    properties:
+                      info:
+                        type: array
+                        items:
+                          type: string
+                    required:
+                    - info
+                required:
+                - notification_set
+              example:
+                notification_set:
+                  info:
+                  - Template is being copied. New copy will show up in a few seconds.
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              examples:
+                '2':
+                  summary: Invalid mailbox id
+                  value:
+                    non_field_errors: No such parser
+                '3':
+                  summary: Invalid template id
+                  value:
+                    non_field_errors: No such template
+          headers: {}
+      security:
+      - TokenAuth: []
+components:
+  responses:
+    Not Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
+    Authentication Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Use header: Authorization: Token YOUR_API_KEY. API keys are here: https://app.parseur.com/account/api-keys'

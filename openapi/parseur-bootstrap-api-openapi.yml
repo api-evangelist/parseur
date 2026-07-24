@@ -1,0 +1,363 @@
+openapi: 3.1.0
+info:
+  title: Parseur async Bootstrap API
+  description: ''
+  version: 1.0.0
+servers:
+- url: https://api.parseur.com
+  description: Parseur API
+security:
+- TokenAuth: []
+tags:
+- name: Bootstrap
+paths:
+  /bootstrap:
+    get:
+      summary: Get bootstrap config
+      deprecated: false
+      description: ''
+      tags:
+      - Bootstrap
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  choices:
+                    type: object
+                    properties:
+                      document.status:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                          minItems: 2
+                          maxItems: 2
+                          uniqueItems: true
+                      document.status_source:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      parser.ai_engine:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      parser.ordering:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      parser.pdf_conversion_format:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      parser.identification_status:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      parser_field.format:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      template.action:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      template.status:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      template.merge_row_behavior:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      template_field.format:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      template_object.errors.code:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      account.auto_subscription_feature:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      account.decimal_separator:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      account.default_timezone:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      account.input_date_format:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      user.roles:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      user.permissions:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      webhook.status:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      webhook.event:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      log.status:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      log.source:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                      parser.master:
+                        type: array
+                        items:
+                          type: array
+                          items:
+                            type: string
+                    required:
+                    - document.status
+                    - document.status_source
+                    - parser.ai_engine
+                    - parser.ordering
+                    - parser.pdf_conversion_format
+                    - parser.identification_status
+                    - parser_field.format
+                    - template.action
+                    - template.status
+                    - template.merge_row_behavior
+                    - template_field.format
+                    - template_object.errors.code
+                    - account.auto_subscription_feature
+                    - account.decimal_separator
+                    - account.default_timezone
+                    - account.input_date_format
+                    - user.roles
+                    - user.permissions
+                    - webhook.status
+                    - webhook.event
+                    - log.status
+                    - log.source
+                    - parser.master
+                  mappings:
+                    type: object
+                    properties:
+                      field.format:
+                        type: object
+                        properties:
+                          TEXT:
+                            type: array
+                            items:
+                              type: string
+                          ONELINE:
+                            type: array
+                            items:
+                              type: string
+                          TABLE:
+                            type: array
+                            items:
+                              type: string
+                          LIST:
+                            type: array
+                            items:
+                              type: string
+                          TXT:
+                            type: object
+                            properties:
+                              TEXT:
+                                type: array
+                                items:
+                                  type: string
+                              ONELINE:
+                                type: array
+                                items:
+                                  type: string
+                              TABLE:
+                                type: array
+                                items:
+                                  type: string
+                              LIST:
+                                type: array
+                                items:
+                                  type: string
+                            required:
+                            - TEXT
+                            - ONELINE
+                            - TABLE
+                            - LIST
+                          OCR:
+                            type: object
+                            properties:
+                              TABLE:
+                                type: array
+                                items:
+                                  type: string
+                            required:
+                            - TABLE
+                        required:
+                        - TEXT
+                        - ONELINE
+                        - TABLE
+                        - LIST
+                        - TXT
+                        - OCR
+                    required:
+                    - field.format
+                  max_field_lengths:
+                    type: object
+                    properties:
+                      email:
+                        type: integer
+                      name:
+                        type: integer
+                    required:
+                    - email
+                    - name
+                  email_domain:
+                    type: string
+                  extra_fields:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        label:
+                          type: string
+                        info:
+                          type: string
+                      required:
+                      - name
+                      - label
+                      - info
+                  master_parser_set:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        slug:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type: string
+                      required:
+                      - slug
+                      - name
+                      - description
+                required:
+                - choices
+                - mappings
+                - max_field_lengths
+                - email_domain
+                - extra_fields
+                - master_parser_set
+                readOnly: true
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          $ref: '#/components/responses/Not Found'
+          description: ''
+      security: []
+components:
+  responses:
+    Not Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
+    Authentication Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Use header: Authorization: Token YOUR_API_KEY. API keys are here: https://app.parseur.com/account/api-keys'

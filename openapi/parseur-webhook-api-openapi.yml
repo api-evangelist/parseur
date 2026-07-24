@@ -1,0 +1,194 @@
+openapi: 3.1.0
+info:
+  title: Parseur async Webhook API
+  description: ''
+  version: 1.0.0
+servers:
+- url: https://api.parseur.com
+  description: Parseur API
+security:
+- TokenAuth: []
+tags:
+- name: Webhook
+paths:
+  /webhook:
+    post:
+      summary: Create a webhook
+      deprecated: false
+      description: ''
+      tags:
+      - Webhook
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Webhook'
+            example:
+              event: document.processed
+              target: https://example.org/webhook
+              name: Test Webhook
+              headers:
+                Test-Header: Test Value
+              category: CUSTOM
+      responses:
+        '201':
+          description: Webhook created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+              example:
+                id: 123456
+                event: document.processed
+                target: https://test.webhooks/new
+                name: New Webhook
+                headers: null
+                category: CUSTOM
+                parser_field_set: []
+          headers: {}
+        '400':
+          description: Invalid request
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          $ref: '#/components/responses/Not Found'
+          description: ''
+      security:
+      - TokenAuth: []
+  /webhook/{id}:
+    delete:
+      summary: Delete a webhook
+      deprecated: false
+      description: ''
+      tags:
+      - Webhook
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '160'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            text/html:
+              schema:
+                type: object
+                properties: {}
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Webhook not found
+          headers: {}
+      security:
+      - TokenAuth: []
+components:
+  responses:
+    Not Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
+    Authentication Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+  schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        event:
+          $ref: '#/components/schemas/WebhookEventEnum'
+        target:
+          type: string
+          format: uri
+        name:
+          type: string
+        headers:
+          type:
+          - object
+          - 'null'
+          properties: {}
+        category:
+          $ref: '#/components/schemas/WebhookCategory'
+        parser_field_set:
+          type: array
+          items:
+            type: string
+          description: Only for table.processed events
+      required:
+      - id
+      - event
+      - target
+      - category
+    WebhookCategory:
+      type: string
+      enum:
+      - CUSTOM
+      - ZAPIER
+      - MAKE
+      - FLOW
+      - N8N
+    WebhookEventEnum:
+      type: string
+      enum:
+      - document.processed
+      - document.processed.flattened
+      - document.template_needed
+      - document.export_failed
+      - table.processed
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Use header: Authorization: Token YOUR_API_KEY. API keys are here: https://app.parseur.com/account/api-keys'

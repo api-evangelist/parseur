@@ -1,0 +1,3028 @@
+openapi: 3.1.0
+info:
+  title: Parseur async Parser API
+  description: ''
+  version: 1.0.0
+servers:
+- url: https://api.parseur.com
+  description: Parseur API
+security:
+- TokenAuth: []
+tags:
+- name: Parser
+paths:
+  /parser/{id}/document_set:
+    get:
+      summary: List documents in a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number for pagination (default is 1)
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+      - name: page_size
+        in: query
+        description: Number of results per page (default is 25)
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+      - name: search
+        in: query
+        description: Case-insensitive partial match search
+        required: false
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Field name to order by (use -prefix for descending)
+        required: false
+        schema:
+          type: string
+          enum:
+          - name
+          - -name
+          - created
+          - -created
+          - processed
+          - -processed
+          - status
+          - -status
+      - name: received_after
+        in: query
+        description: Filter documents received after this date (yyyy-mm-dd)
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: received_before
+        in: query
+        description: Filter documents received before this date (yyyy-mm-dd)
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: status
+        in: query
+        description: Filter documents by status
+        required: false
+        schema:
+          $ref: '#/components/schemas/DocumentStatusEnum'
+      - name: tz
+        in: query
+        description: Timezone for date filters (e.g. Asia%2FSingapore). Defaults to UTC.
+        required: false
+        schema:
+          type: string
+      - name: with_result
+        in: query
+        description: Include parsed result string with each document
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: List of documents (paginated)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    readOnly: true
+                  current:
+                    type: integer
+                    readOnly: true
+                  total:
+                    type: integer
+                    readOnly: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        attached_to:
+                          type: 'null'
+                        id:
+                          type: integer
+                        match_master_template:
+                          type: boolean
+                        name:
+                          type: string
+                        ocr_ready_url:
+                          type: string
+                        original_document_url:
+                          type: string
+                        parser:
+                          type: integer
+                        processed:
+                          type: string
+                        received:
+                          type: string
+                        sample_set:
+                          type: array
+                          items:
+                            type: string
+                        status_source:
+                          type: string
+                        status:
+                          type: string
+                        template:
+                          type: 'null'
+                        credits_used:
+                          type: integer
+                        conventional_credits_used:
+                          type: integer
+                        ai_credits_used:
+                          type: integer
+                        is_ai_ready:
+                          type: boolean
+                        is_ocr_ready:
+                          type: boolean
+                        is_processable:
+                          type: boolean
+                        is_splittable:
+                          type: boolean
+                        is_split:
+                          type: boolean
+                        json_download_url:
+                          type: string
+                        csv_download_url:
+                          type: string
+                        xls_download_url:
+                          type: string
+                      required:
+                      - attached_to
+                      - id
+                      - match_master_template
+                      - name
+                      - ocr_ready_url
+                      - original_document_url
+                      - parser
+                      - processed
+                      - received
+                      - sample_set
+                      - status_source
+                      - status
+                      - template
+                      - credits_used
+                      - conventional_credits_used
+                      - ai_credits_used
+                      - is_ai_ready
+                      - is_ocr_ready
+                      - is_processable
+                      - is_splittable
+                      - is_split
+                      - json_download_url
+                      - csv_download_url
+                      - xls_download_url
+                      $ref: '#/components/schemas/DocumentDiet'
+                    readOnly: true
+                required:
+                - count
+                - current
+                - total
+                - results
+              example:
+                count: 2
+                current: 1
+                total: 1
+                results:
+                - attached_to: 12345680
+                  id: 12345679
+                  match_master_template: false
+                  name: document_1.pdf
+                  ocr_ready_url: https://api.parseur.com/document/ABC12345XYZ67890/ocr_ready/document_1.pdf
+                  original_document_url: https://api.parseur.com/document/ABC12345XYZ67890/document_1.pdf
+                  parser: 98765
+                  processed: '2025-08-06T12:09:59.608371Z'
+                  received: '2025-08-06T12:09:52.063182Z'
+                  sample_set: []
+                  status_source: AI
+                  status: PARSEDOK
+                  template: null
+                  credits_used: 1
+                  conventional_credits_used: 0
+                  ai_credits_used: 1
+                  is_ai_ready: true
+                  is_ocr_ready: true
+                  is_processable: true
+                  is_splittable: false
+                  is_split: false
+                  json_download_url: https://api.parseur.com/document/ABC12345XYZ67890/result/document_1.json
+                  csv_download_url: https://api.parseur.com/document/ABC12345XYZ67890/result/document_1.csv
+                  xls_download_url: https://api.parseur.com/document/ABC12345XYZ67890/result/document_1.xlsx
+                - attached_to: null
+                  id: 12345680
+                  match_master_template: false
+                  name: message_2.eml
+                  ocr_ready_url: null
+                  original_document_url: https://api.parseur.com/document/DEF98765UVW43210/message_2.eml
+                  parser: 98765
+                  processed: '2025-08-06T12:09:55.150511Z'
+                  received: '2025-08-06T12:09:49.901419Z'
+                  sample_set: []
+                  status_source: METADATA
+                  status: PARSEDOK
+                  template: null
+                  credits_used: 1
+                  conventional_credits_used: 1
+                  ai_credits_used: 0
+                  is_ai_ready: true
+                  is_ocr_ready: false
+                  is_processable: true
+                  is_splittable: false
+                  is_split: false
+                  json_download_url: https://api.parseur.com/document/DEF98765UVW43210/result/message_2.json
+                  csv_download_url: https://api.parseur.com/document/DEF98765UVW43210/result/message_2.csv
+                  xls_download_url: https://api.parseur.com/document/DEF98765UVW43210/result/message_2.xlsx
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Parser 123456 not found
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser:
+    get:
+      summary: List mailboxes
+      deprecated: false
+      description: Optional query parameters for pagination and filtering
+      tags:
+      - Parser
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination (default is 1)
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+      - name: page_size
+        in: query
+        description: Number of results per page (default is 25)
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+      - name: search
+        in: query
+        description: Case-insensitive partial match search
+        required: false
+        schema:
+          type: string
+      - name: ordering
+        in: query
+        description: Field name to order by (use -prefix for descending)
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+          enum:
+          - name
+          - -name
+          - document_count
+          - -document_count
+          - template_count
+          - -template_count
+          - PARSEDOK_count
+          - -PARSEDOK_count
+          - PARSEDKO_count
+          - -PARSEDKO_count
+          - QUOTAEXC_count
+          - -QUOTAEXC_count
+          - EXPORTKO_count
+          - -EXPORTKO_count
+          - TRANSKO_count
+          - -TRANSKO_count
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    readOnly: true
+                  current:
+                    type: integer
+                    readOnly: true
+                  total:
+                    type: integer
+                    readOnly: true
+                  results:
+                    type: array
+                    items:
+                      properties:
+                        account_uuid:
+                          type: string
+                        ai_engine:
+                          type: string
+                        attachments_only:
+                          type: boolean
+                        attachments_only_override:
+                          type: 'null'
+                        can_transform:
+                          type: boolean
+                        disable_deskew:
+                          type: boolean
+                        enable_layouted_text:
+                          type: boolean
+                        enable_image_ocr:
+                          type: boolean
+                        document_count:
+                          type: integer
+                        document_per_status_count:
+                          type: object
+                          properties:
+                            INCOMING:
+                              type: integer
+                            ANALYZING:
+                              type: integer
+                            PROGRESS:
+                              type: integer
+                            PARSEDOK:
+                              type: integer
+                            PARSEDKO:
+                              type: integer
+                            QUOTAEXC:
+                              type: integer
+                            SKIPPED:
+                              type: integer
+                            SPLIT:
+                              type: integer
+                            DELETED:
+                              type: integer
+                            EXPORTKO:
+                              type: integer
+                            TRANSKO:
+                              type: integer
+                            INVALID:
+                              type: integer
+                          required:
+                          - INCOMING
+                          - ANALYZING
+                          - PROGRESS
+                          - PARSEDOK
+                          - PARSEDKO
+                          - QUOTAEXC
+                          - SKIPPED
+                          - SPLIT
+                          - DELETED
+                          - EXPORTKO
+                          - TRANSKO
+                          - INVALID
+                        email_prefix:
+                          type: string
+                        even_pages:
+                          type: boolean
+                        force_ocr:
+                          type: boolean
+                        id:
+                          type: integer
+                        is_master:
+                          type: boolean
+                        last_activity:
+                          type: string
+                        name:
+                          type: string
+                        odd_pages:
+                          type: boolean
+                        page_range_set:
+                          type: array
+                          items:
+                            type: string
+                        parser_object_count:
+                          type: integer
+                        parser_object_set_last_modified:
+                          type: 'null'
+                        process_attachments:
+                          type: boolean
+                        retention_policy:
+                          type: integer
+                        split_keywords:
+                          type: 'null'
+                        split_page:
+                          type: 'null'
+                        split_page_range_set:
+                          type: array
+                          items:
+                            type: string
+                        template_count:
+                          type: integer
+                        webhook_count:
+                          type: integer
+                        attachments_field:
+                          type: boolean
+                        original_document_field:
+                          type: boolean
+                        searchable_pdf_field:
+                          type: boolean
+                        headers_field:
+                          type: boolean
+                        received_field:
+                          type: boolean
+                        received_date_field:
+                          type: boolean
+                        received_time_field:
+                          type: boolean
+                        processed_field:
+                          type: boolean
+                        processed_date_field:
+                          type: boolean
+                        processed_time_field:
+                          type: boolean
+                        sender_field:
+                          type: boolean
+                        sender_name_field:
+                          type: boolean
+                        split_page_range_field:
+                          type: boolean
+                        recipient_field:
+                          type: boolean
+                        to_field:
+                          type: boolean
+                        cc_field:
+                          type: boolean
+                        bcc_field:
+                          type: boolean
+                        reply_to_field:
+                          type: boolean
+                        recipient_suffix_field:
+                          type: boolean
+                        original_recipient_field:
+                          type: boolean
+                        subject_field:
+                          type: boolean
+                        template_field:
+                          type: boolean
+                        html_document_field:
+                          type: boolean
+                        text_document_field:
+                          type: boolean
+                        content_field:
+                          type: boolean
+                        last_reply_field:
+                          type: boolean
+                        document_id_field:
+                          type: boolean
+                        parent_id_field:
+                          type: boolean
+                        document_url_field:
+                          type: boolean
+                        public_document_url_field:
+                          type: boolean
+                        page_count_field:
+                          type: boolean
+                        credit_count_field:
+                          type: boolean
+                        mailbox_id_field:
+                          type: boolean
+                        parsing_engine_field:
+                          type: boolean
+                        available_webhook_set:
+                          type: array
+                          items:
+                            type: string
+                        webhook_set:
+                          type: array
+                          items:
+                            type: string
+                        table_set:
+                          type: array
+                          items:
+                            type: string
+                      $ref: '#/components/schemas/ParserDiet'
+                    readOnly: true
+                required:
+                - count
+                - current
+                - total
+                - results
+              examples:
+                '1':
+                  summary: Success
+                  value: "{\n    \"count\": 2,\n    \"current\": 1,\n    \"total\": 1,\n    \"results\": [\n        {\n            \"account_uuid\": \"acc_1234561ef2f5467db594234a0f4ef1af\",\n            \"ai_engine\": \"GCP_AI_1\",\n            \"attachments_only\": false,\n            \"attachments_only_override\": false,\n            \"can_transform\": false,\n            \"disable_deskew\": false,\n            \"enable_layouted_text\": true,\n            \"enable_image_ocr\": true,\n            \"document_count\": 6,\n            \"document_per_status_count\": {\n                \"INCOMING\": 0,\n                \"ANALYZING\": 0,\n                \"PROGRESS\": 0,\n                \"PARSEDOK\": 4,\n                \"PARSEDKO\": 0,\n                \"QUOTAEXC\": 2,\n                \"SKIPPED\": 0,\n                \"SPLIT\": 0,\n                \"DELETED\": 0,\n                \"EXPORTKO\": 0,\n                \"TRANSKO\": 0,\n                \"INVALID\": 0\n            },\n            \"email_prefix\": \"test.mailbox\",\n            \"even_pages\": true,\n            \"force_ocr\": false,\n            \"id\": 123456,\n            \"is_master\": false,\n            \"last_activity\": \"2025-08-08T09:48:45.578235Z\",\n            \"master_parser_name\": \"Invoices\",\n            \"master_parser_slug\": \"invoices\",\n            \"name\": \"Test Mailbox\",\n            \"odd_pages\": true,\n            \"page_range_set\": [],\n            \"parser_object_count\": 39,\n            \"parser_object_set_last_modified\": \"2025-08-08T08:55:30.740946Z\",\n            \"process_attachments\": true,\n            \"retention_policy\": 90,\n            \"split_keywords\": null,\n            \"split_page\": null,\n            \"split_page_range_set\": [],\n            \"template_count\": 1,\n            \"webhook_count\": 1,\n            \"attachments_field\": true,\n            \"original_document_field\": true,\n            \"searchable_pdf_field\": false,\n            \"headers_field\": true,\n            \"received_field\": false,\n            \"received_date_field\": false,\n            \"received_time_field\": false,\n            \"processed_field\": false,\n            \"processed_date_field\": false,\n            \"processed_time_field\": false,\n            \"sender_field\": false,\n            \"sender_name_field\": false,\n            \"split_page_range_field\": false,\n            \"recipient_field\": false,\n            \"to_field\": false,\n            \"cc_field\": false,\n            \"bcc_field\": false,\n            \"reply_to_field\": false,\n            \"recipient_suffix_field\": false,\n            \"original_recipient_field\": false,\n            \"subject_field\": false,\n            \"template_field\": false,\n            \"html_document_field\": true,\n            \"text_document_field\": false,\n            \"content_field\": true,\n            \"last_reply_field\": false,\n            \"document_id_field\": true,\n            \"parent_id_field\": false,\n            \"document_url_field\": false,\n            \"public_document_url_field\": false,\n            \"page_count_field\": false,\n            \"credit_count_field\": false,\n            \"mailbox_id_field\": false,\n            \"parsing_engine_field\": false,\n            \"available_webhook_set\": [\n                {\n                    \"id\": 14,\n                    \"event\": \"document.processed\",\n                    \"target\": \"https://test.webhooks/test\",\n                    \"name\": \"My Webhooks\",\n                    \"headers\": {\n                        \"X-Test\": \"yes\"\n                    },\n                    \"category\": \"CUSTOM\",\n                    \"parser_field_set\": []\n                },\n                {\n                    \"id\": 15,\n                    \"event\": \"table.processed\",\n                    \"target\": \"https://another.webhook/test\",\n                    \"name\": \"\",\n                    \"headers\": null,\n                    \"category\": \"CUSTOM\",\n                    \"parser_field_set\": [\n                        \"PF1504082\"\n                    ]\n                }\n            ],\n            \"webhook_set\": [\n                {\n                    \"id\": 15,\n                    \"event\": \"table.processed\",\n                    \"target\": \"https://another.webhook/test\",\n                    \"name\": \"\",\n                    \"headers\": null,\n                    \"category\": \"CUSTOM\",\n                    \"parser_field_set\": [\n                        \"PF1504082\"\n                    ]\n                }\n            ],\n            \"table_set\": [\n                {\n                    \"id\": \"PF1504099\",\n                    \"name\": \"Items\"\n                },\n                {\n                    \"id\": \"PF1504082\",\n                    \"name\": \"fees\"\n                },\n                {\n                    \"id\": \"Attachments\",\n                    \"name\": \"Attachments\"\n                }\n            ]\n        },\n        {\n            \"account_uuid\": \"acc_1234561ef2f5467db594234a0f4ef1af\",\n            \"ai_engine\": \"DISABLED\",\n            // rest removed for brevity\n        }\n    ]\n}"
+                '2':
+                  summary: Not authenticated
+                  value:
+                    non_field_errors: Not authenticated
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+      security:
+      - TokenAuth: []
+    post:
+      summary: Create a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parser'
+            example:
+              ai_engine: GCP_AI_1
+              identification_status: REQUESTED
+      responses:
+        '201':
+          description: Mailbox created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parser'
+              example:
+                account_uuid: acc_9876541ef2f5467db594234a0f4ef1af
+                ai_engine: GCP_AI_1
+                attachments_only: false
+                attachments_only_override: null
+                can_transform: false
+                disable_deskew: false
+                enable_layouted_text: true
+                enable_image_ocr: true
+                document_count: 0
+                document_per_status_count:
+                  INCOMING: 0
+                  ANALYZING: 0
+                  PROGRESS: 0
+                  PARSEDOK: 0
+                  PARSEDKO: 0
+                  QUOTAEXC: 0
+                  SKIPPED: 0
+                  SPLIT: 0
+                  DELETED: 0
+                  EXPORTKO: 0
+                  TRANSKO: 0
+                  INVALID: 0
+                email_prefix: steadfast.tender.tamarin
+                even_pages: true
+                force_ocr: false
+                id: 321654
+                is_master: false
+                last_activity: '2025-08-08T12:00:39.796530Z'
+                name: Steadfast Tender Tamarin
+                odd_pages: true
+                page_range_set: []
+                parser_object_count: 0
+                parser_object_set_last_modified: null
+                process_attachments: true
+                retention_policy: 90
+                split_keywords: null
+                split_page: null
+                split_page_range_set: []
+                template_count: 0
+                webhook_count: 0
+                attachments_field: false
+                original_document_field: false
+                searchable_pdf_field: false
+                headers_field: false
+                received_field: false
+                received_date_field: false
+                received_time_field: false
+                processed_field: false
+                processed_date_field: false
+                processed_time_field: false
+                sender_field: false
+                sender_name_field: false
+                split_page_range_field: false
+                recipient_field: false
+                to_field: false
+                cc_field: false
+                bcc_field: false
+                reply_to_field: false
+                recipient_suffix_field: false
+                original_recipient_field: false
+                subject_field: false
+                template_field: false
+                html_document_field: false
+                text_document_field: false
+                content_field: false
+                last_reply_field: false
+                document_id_field: false
+                parent_id_field: false
+                document_url_field: false
+                public_document_url_field: false
+                page_count_field: false
+                credit_count_field: false
+                mailbox_id_field: false
+                parsing_engine_field: false
+                csv_download: /parser/<secret>.tender.tamarin.csv
+                decimal_separator: null
+                default_timezone: null
+                disable_document_links: false
+                expand_result: false
+                extract_xml_from_comment: false
+                input_date_format: null
+                identification_status: REQUESTED
+                is_transform_enabled: false
+                json_download: /parser/<secret>.tender.tamarin.json
+                parser_object_set: []
+                pdf_conversion_format: TXT_LAYOUT
+                secret: <secret>
+                transform: null
+                unzip_attachments: true
+                use_whitelist_instead_of_blacklist: false
+                template_set_last_modified: null
+                webhook_set: []
+                xls_download: /parser/<secret>.tender.tamarin.xlsx
+                zip_attachments: false
+                available_webhook_set: []
+                table_set: []
+                emails_or_domains: []
+          headers: {}
+        '400':
+          description: Invalid input
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          $ref: '#/components/responses/Not Found'
+          description: ''
+      security:
+      - TokenAuth: []
+  /parser/{id}:
+    get:
+      summary: Get a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Mailbox retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parser'
+              example:
+                account_uuid: acc_1234561ef2f5467db594234a0f4ef1af
+                ai_engine: GCP_AI_1
+                attachments_only: false
+                attachments_only_override: false
+                can_transform: false
+                disable_deskew: false
+                enable_layouted_text: true
+                enable_image_ocr: true
+                document_count: 2
+                document_per_status_count:
+                  INCOMING: 0
+                  ANALYZING: 0
+                  PROGRESS: 0
+                  PARSEDOK: 2
+                  PARSEDKO: 0
+                  QUOTAEXC: 0
+                  SKIPPED: 0
+                  SPLIT: 0
+                  DELETED: 0
+                  EXPORTKO: 0
+                  TRANSKO: 0
+                  INVALID: 0
+                email_prefix: test.mailbox
+                even_pages: true
+                force_ocr: false
+                id: 123456
+                is_master: false
+                last_activity: '2025-08-06T13:24:49.287169Z'
+                master_parser_name: Invoices
+                master_parser_slug: invoices
+                name: Test Mailbox
+                odd_pages: true
+                page_range_set: []
+                parser_object_count: 39
+                parser_object_set_last_modified: '2025-08-06T13:24:49.373497Z'
+                process_attachments: true
+                retention_policy: 90
+                split_keywords: null
+                split_page: null
+                split_page_range_set: []
+                template_count: 1
+                webhook_count: 0
+                attachments_field: true
+                original_document_field: true
+                searchable_pdf_field: false
+                headers_field: true
+                received_field: false
+                received_date_field: false
+                received_time_field: false
+                processed_field: false
+                processed_date_field: false
+                processed_time_field: false
+                sender_field: false
+                sender_name_field: false
+                split_page_range_field: false
+                recipient_field: false
+                to_field: false
+                cc_field: false
+                bcc_field: false
+                reply_to_field: false
+                recipient_suffix_field: false
+                original_recipient_field: false
+                subject_field: false
+                template_field: false
+                html_document_field: true
+                text_document_field: false
+                content_field: true
+                last_reply_field: false
+                document_id_field: false
+                parent_id_field: false
+                document_url_field: false
+                public_document_url_field: false
+                page_count_field: false
+                credit_count_field: false
+                mailbox_id_field: false
+                parsing_engine_field: false
+                csv_download: /parser/<secret>/download/test.mailbox.csv
+                decimal_separator: ','
+                default_timezone: Africa/Banjul
+                disable_document_links: false
+                expand_result: false
+                extract_xml_from_comment: false
+                input_date_format: MONTH_FIRST
+                identification_status: COMPLETED
+                is_transform_enabled: false
+                json_download: /parser/<secret>/download/test.mailbox.json
+                parser_object_set:
+                - id: PF1504090
+                  name: CustomerAddress
+                  format: ADDRESS
+                  is_optional: null
+                  query: null
+                  json_download: /parser_field/<secret2>/download/CustomerAddress.json
+                  csv_download: /parser_field/<secret2>/download/CustomerAddress.csv
+                  xls_download: /parser_field/<secret2>/download/CustomerAddress.xlsx
+                  type: FIELD
+                - id: PF1504091
+                  name: CustomerCompany
+                  format: TEXT
+                  is_optional: null
+                  query: null
+                  json_download: /parser_field/<secret3>/download/CustomerCompany.json
+                  csv_download: /parser_field/<secret3>/download/CustomerCompany.csv
+                  xls_download: /parser_field/<secret3>/download/CustomerCompany.xlsx
+                  type: FIELD
+                - id: PF1504099
+                  name: Items
+                  format: TABLE
+                  is_optional: false
+                  query: null
+                  parser_object_set:
+                  - id: PF1504100
+                    name: description
+                    format: TEXT
+                    is_optional: null
+                    query: null
+                    json_download: /parser_field/<secret4>/download/description.json
+                    csv_download: /parser_field/<secret4>/download/description.csv
+                    xls_download: /parser_field/<secret4>/download/description.xlsx
+                    type: FIELD
+                  - id: PF1504101
+                    name: price
+                    format: NUMBER
+                    is_optional: null
+                    query: null
+                    json_download: /parser_field/<secret5>/download/price.json
+                    csv_download: /parser_field/<secret5>/download/price.csv
+                    xls_download: /parser_field/<secret5>/download/price.xlsx
+                    type: FIELD
+                  json_download: /parser_field/<secret6>/download/Items.json
+                  csv_download: /parser_field/<secret6>/download/Items.csv
+                  xls_download: /parser_field/<secret6>/download/Items.xlsx
+                  type: FIELD
+                pdf_conversion_format: TXT_LAYOUT
+                secret: <secret>
+                transform: null
+                unzip_attachments: true
+                use_whitelist_instead_of_blacklist: true
+                template_set_last_modified: '2025-08-06T12:06:16.069409Z'
+                webhook_set:
+                - id: 15
+                  event: table.processed
+                  target: https://another.webhook/test
+                  name: ''
+                  headers: null
+                  category: CUSTOM
+                  parser_field_set:
+                  - PF1504082
+                xls_download: /parser/<secret>/download/test.mailbox.xlsx
+                zip_attachments: false
+                available_webhook_set:
+                - id: 14
+                  event: document.processed
+                  target: https://test.webhooks/test
+                  name: My Webhooks
+                  headers:
+                    X-Test: 'yes'
+                  category: CUSTOM
+                  parser_field_set: []
+                - id: 15
+                  event: table.processed
+                  target: https://another.webhook/test
+                  name: ''
+                  headers: null
+                  category: CUSTOM
+                  parser_field_set:
+                  - PF1504082
+                emails_or_domains:
+                - only@thisemail.com
+                - also@thatemail.org
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Mailbox not found
+          headers: {}
+      security:
+      - TokenAuth: []
+    put:
+      summary: Update a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parser'
+            example:
+              id: '{{PARSER_ID}}'
+              name: New Mailbox Name
+              parser_object_set:
+              - name: New Address Field
+                format: ADDRESS
+                query: The address located in the footer of the document
+      responses:
+        '200':
+          description: Mailbox updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parser'
+              example:
+                account_uuid: acc_9876541ef2f5467db594234a0f4ef1af
+                ai_engine: GCP_AI_1
+                attachments_only: false
+                attachments_only_override: null
+                can_transform: false
+                disable_deskew: false
+                enable_layouted_text: true
+                enable_image_ocr: true
+                document_count: 1
+                document_per_status_count:
+                  INCOMING: 0
+                  ANALYZING: 0
+                  PROGRESS: 0
+                  PARSEDOK: 1
+                  PARSEDKO: 0
+                  QUOTAEXC: 0
+                  SKIPPED: 0
+                  SPLIT: 0
+                  DELETED: 0
+                  EXPORTKO: 0
+                  TRANSKO: 0
+                  INVALID: 0
+                email_prefix: new.name
+                even_pages: true
+                force_ocr: false
+                id: 321654
+                is_master: false
+                last_activity: '2025-08-08T12:10:04.661615Z'
+                name: New Mailbox Name
+                odd_pages: true
+                page_range_set: []
+                parser_object_count: 1
+                parser_object_set_last_modified: '2025-08-08T12:10:04.667893Z'
+                process_attachments: true
+                retention_policy: 90
+                split_keywords: null
+                split_page: null
+                split_page_range_set: []
+                template_count: 0
+                webhook_count: 0
+                attachments_field: false
+                original_document_field: false
+                searchable_pdf_field: false
+                headers_field: false
+                received_field: false
+                received_date_field: false
+                received_time_field: false
+                processed_field: false
+                processed_date_field: false
+                processed_time_field: false
+                sender_field: false
+                sender_name_field: false
+                split_page_range_field: false
+                recipient_field: false
+                to_field: false
+                cc_field: false
+                bcc_field: false
+                reply_to_field: false
+                recipient_suffix_field: false
+                original_recipient_field: false
+                subject_field: false
+                template_field: false
+                html_document_field: false
+                text_document_field: false
+                content_field: false
+                last_reply_field: false
+                document_id_field: false
+                parent_id_field: false
+                document_url_field: false
+                public_document_url_field: false
+                page_count_field: false
+                credit_count_field: false
+                mailbox_id_field: false
+                parsing_engine_field: false
+                csv_download: /parser/<secret>/download/new.name.csv
+                decimal_separator: null
+                default_timezone: null
+                disable_document_links: false
+                expand_result: false
+                extract_xml_from_comment: false
+                input_date_format: null
+                identification_status: COMPLETED
+                is_transform_enabled: false
+                json_download: /parser/<secret>/download/new.name.json
+                parser_object_set:
+                - id: PF1234567
+                  name: New Address Field
+                  format: ADDRESS
+                  is_optional: null
+                  query: The address located in the footer of the document
+                  json_download: /parser_field/<secret2>/download/NewAddressField.json
+                  csv_download: /parser_field/<secret2>/download/NewAddressField.csv
+                  xls_download: /parser_field/<secret2>/download/NewAddressField.xlsx
+                  type: FIELD
+                pdf_conversion_format: TXT_LAYOUT
+                secret: <secret>
+                transform: null
+                unzip_attachments: true
+                use_whitelist_instead_of_blacklist: false
+                template_set_last_modified: null
+                webhook_set: []
+                xls_download: /parser/<secret>/download/new.name.xlsx
+                zip_attachments: false
+                available_webhook_set: []
+                table_set: []
+                emails_or_domains: []
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Mailbox not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: No Parser matches the given query.
+          headers: {}
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                    const: A mailbox with that address already exists. Please choose another address.
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: A mailbox with that address already exists. Please choose another address.
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser/{id}/schema:
+    get:
+      summary: Get mailbox schema
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of mailbox fields formatted as JSON Schema
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  properties:
+                    type: object
+                    properties: {}
+                required:
+                - type
+                - properties
+              example:
+                type: object
+                properties:
+                  OriginalDocument:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      url:
+                        type: string
+                      content_type:
+                        type: string
+                      size:
+                        type: integer
+                  CustomerAddress:
+                    type: object
+                    properties:
+                      original:
+                        type: string
+                      found:
+                        type: boolean
+                      normalized:
+                        type: string
+                      number:
+                        type: string
+                      street:
+                        type: string
+                      address1:
+                        type: string
+                      address2:
+                        type: string
+                      city:
+                        type: string
+                      zip:
+                        type: string
+                      county:
+                        type: string
+                      state_code:
+                        type: string
+                      state:
+                        type: string
+                      country_code:
+                        type: string
+                      country:
+                        type: string
+                      lat:
+                        type: number
+                      lng:
+                        type: number
+                      map:
+                        type: string
+                  CustomerCompany:
+                    type: string
+                  CustomerEmail:
+                    type: string
+                  Items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        description:
+                          type: string
+                        price:
+                          type: number
+                        quantity:
+                          type: number
+                        unitPrice:
+                          type: number
+                  TOTAL:
+                    type: number
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Mailbox 123654 not found
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser/{id}/export_config:
+    get:
+      summary: List custom downloads
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    readOnly: true
+                  current:
+                    type: integer
+                    readOnly: true
+                  total:
+                    type: integer
+                    readOnly: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ExportConfig'
+                    readOnly: true
+                required:
+                - count
+                - current
+                - total
+                - results
+              example:
+                count: 1
+                current: 1
+                total: 1
+                results:
+                - id: 123
+                  name: My Download
+                  type: PARSER
+                  items:
+                  - CustomerName
+                  - CustomerPhone
+                  csv_download: /parser/<secret>/download/my-download-udpated.csv?cfg=123
+                  xls_download: /parser/<secret>/download/my-download-udpated.xlsx?cfg=123
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Parser does not exist.
+          headers: {}
+      security:
+      - TokenAuth: []
+    post:
+      summary: Create a custom download
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportConfig'
+            example:
+              name: My Download
+              type: PARSER
+              items:
+              - CustomerName
+              - CustomerPhone
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportConfig'
+              example:
+                id: 123
+                name: My Download
+                type: PARSER
+                items:
+                - CustomerName
+                - CustomerPhone
+                csv_download: /parser/<secret>/download/my-download.csv?cfg=123
+                xls_download: /parser/<secret>/download/my-download.xlsx?cfg=123
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Parser does not exist.
+          headers: {}
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - non_field_errors
+                - name
+              example:
+                non_field_errors: A exportconfig with "My Download" as name already exists. Please pick another value for name.
+                name: Invalid value
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser/{mailbox_id}/export_config/{id}:
+    patch:
+      summary: Update a custom download
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: mailbox_id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{EXPORT_CONFIG_ID}}'
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportConfig'
+            example:
+              name: My Download udpated
+              type: PARSER
+              items:
+              - CustomerName
+              - CustomerEmail
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportConfig'
+              example:
+                id: 123
+                name: My Download udpated
+                type: PARSER
+                items:
+                - CustomerName
+                - CustomerEmail
+                csv_download: /parser/<secret>/download/my-download-udpated.csv?cfg=123
+                xls_download: /parser/<secret>/download/my-download-udpated.xlsx?cfg=123
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              examples:
+                '3':
+                  summary: Exception
+                  value:
+                    non_field_errors: Parser does not exist.
+                '4':
+                  summary: Exception
+                  value:
+                    non_field_errors: No ExportConfig matches the given query.
+          headers: {}
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - non_field_errors
+                - name
+              example:
+                non_field_errors: A exportconfig with "My Download" as name already exists. Please pick another value for name.
+                name: Invalid value
+          headers: {}
+      security:
+      - TokenAuth: []
+    delete:
+      summary: Delete a custom download
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: mailbox_id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{EXPORT_CONFIG_ID}}'
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              examples:
+                '1':
+                  summary: Exception
+                  value:
+                    non_field_errors: Parser does not exist.
+                '2':
+                  summary: Exception
+                  value:
+                    non_field_errors: No ExportConfig matches the given query.
+          headers: {}
+        '409':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                  name:
+                    type: string
+                required:
+                - non_field_errors
+                - name
+              example:
+                non_field_errors: A exportconfig with "My Download" as name already exists. Please pick another value for name.
+                name: Invalid value
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser/{id}/template_set:
+    get:
+      summary: List templates in a mailbox
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Parser'
+            example:
+              id: '{{PARSER_ID}}'
+              email_prefix: test.api
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    readOnly: true
+                  current:
+                    type: integer
+                    readOnly: true
+                  total:
+                    type: integer
+                    readOnly: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemplateDiet'
+                    readOnly: true
+                required:
+                - count
+                - current
+                - total
+                - results
+              example:
+                count: 1
+                current: 1
+                total: 1
+                results:
+                - id: 1234567
+                  name: My Template
+                  parser: 123456
+                  engine: OCR
+                  action: PROCESS
+                  status: PROD
+                  margin:
+                    default:
+                      lower: 1
+                      upper: 0
+                  document_count: 1
+                  last_activity: '2025-08-07T10:01:02.341063Z'
+                  decimal_separator: null
+                  input_date_format: null
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: Parser 123456 not found
+          headers: {}
+      security:
+      - TokenAuth: []
+  /parser/{mailbox_id}/webhook_set/{id}:
+    post:
+      summary: Enable a webhook
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: mailbox_id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{WEBHOOK_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Webhook enabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parser'
+              example:
+                id: 123456
+                webhook_set:
+                - id: 14
+                  event: document.processed
+                  target: https://test.webhooks/test
+                  name: My Webhook
+                  category: CUSTOM
+                  parser_field_set: []
+                available_webhook_set:
+                - id: 14
+                  event: document.processed
+                  target: https://test.webhooks/test
+                  name: My Webhook
+                  category: CUSTOM
+                  parser_field_set: []
+                - id: 15
+                  event: table.processed
+                  target: https://test.webhooks/other
+                  name: ''
+                  headers: null
+                  category: CUSTOM
+                  api_key: null
+                  default_driver_fee_percentage: null
+                  parser_field_set:
+                  - PF1504082
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Webhook or mailbox not found
+          headers: {}
+      security:
+      - TokenAuth: []
+    delete:
+      summary: Disable a webhook
+      deprecated: false
+      description: ''
+      tags:
+      - Parser
+      parameters:
+      - name: mailbox_id
+        in: path
+        description: ''
+        required: true
+        example: '{{PARSER_ID}}'
+        schema:
+          type: integer
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{WEBHOOK_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Webhook disabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Parser'
+              example:
+                id: 123456
+                webhook_set: []
+                available_webhook_set:
+                - id: 14
+                  event: document.processed
+                  target: https://test.webhooks/test
+                  name: My Webhook
+                  category: CUSTOM
+                  parser_field_set: []
+                - id: 15
+                  event: table.processed
+                  target: https://test.webhooks/other
+                  name: ''
+                  headers: null
+                  category: CUSTOM
+                  api_key: null
+                  default_driver_fee_percentage: null
+                  parser_field_set:
+                  - PF1504082
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Webhook or mailbox not found
+          headers: {}
+      security:
+      - TokenAuth: []
+components:
+  schemas:
+    ParserDiet:
+      type: object
+      properties:
+        account_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The Universally Unique Identifier for your account.
+        ai_engine:
+          $ref: '#/components/schemas/AIEngineEnum'
+          description: The AI engine being used for this parser, if any.
+        attachments_only:
+          type: boolean
+          description: Whether the parser in question skips email processing or not (read-only).
+        attachments_only_override:
+          type:
+          - boolean
+          - 'null'
+          description: Use this to update attachments_only.
+        can_transform:
+          type: boolean
+          readOnly: true
+          description: Whether Python Post-Processing is enabled for this parser.
+        disable_deskew:
+          type: boolean
+          description: Whether deskew is disabled for this parser (enabled by default).
+        enable_layouted_text:
+          type: boolean
+        enable_image_ocr:
+          type: boolean
+          description: Whether this parser supports image processing (enabled by default).
+        document_count:
+          type: integer
+          readOnly: true
+          description: The number of documents in the parser.
+        document_per_status_count:
+          type: object
+          properties:
+            INCOMING:
+              type: integer
+              readOnly: true
+            ANALYZING:
+              type: integer
+              readOnly: true
+            PROGRESS:
+              type: integer
+              readOnly: true
+            PARSEDOK:
+              type: integer
+              readOnly: true
+            PARSEDKO:
+              type: integer
+              readOnly: true
+            QUOTAEXC:
+              type: integer
+              readOnly: true
+            SKIPPED:
+              type: integer
+              readOnly: true
+            SPLIT:
+              type: integer
+              readOnly: true
+            DELETED:
+              type: integer
+              readOnly: true
+            EXPORTKO:
+              type: integer
+              readOnly: true
+            TRANSKO:
+              type: integer
+              readOnly: true
+            INVALID:
+              type: integer
+              readOnly: true
+          required:
+          - INCOMING
+          - ANALYZING
+          - PROGRESS
+          - PARSEDOK
+          - PARSEDKO
+          - QUOTAEXC
+          - SKIPPED
+          - SPLIT
+          - DELETED
+          - EXPORTKO
+          - TRANSKO
+          - INVALID
+          readOnly: true
+          description: This is a breakdown of the documents in the parser by status.
+        email_prefix:
+          type: string
+          description: The email prefix for the parser.
+        even_pages:
+          type: boolean
+          description: Whether the parser is configured to process only even page numbers in a document.
+        force_ocr:
+          type: boolean
+          description: Whether Parseur runs its own OCR on every document uploaded to this parser.
+        id:
+          type: integer
+          readOnly: true
+          description: The internal ID number for the parser.
+        is_master:
+          type: boolean
+          readOnly: true
+          description: Whether this is a master parser that passes its instructions on to others.
+        last_activity:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          description: The name of the parser.
+        odd_pages:
+          type: boolean
+          description: Whether the parser is configured to process only odd page numbers in a document.
+        page_range_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageRange'
+          description: The range of pages set to be processed in the parser.
+        parser_object_count:
+          type: integer
+          readOnly: true
+          description: The total number of field and metadata outputs currently configured in the parser.
+        parser_object_set_last_modified:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+          description: The last time the fields of the parser were modified.
+        process_attachments:
+          type: boolean
+          description: Whether email attachment processing is enabled on this parser.
+        retention_policy:
+          type: integer
+          description: How many days documents and data are stored on our servers before deletion (90 days is the detaulf).
+        split_keywords:
+          type:
+          - array
+          - 'null'
+          items:
+            properties:
+              keyword:
+                type: string
+              is_before:
+                type: boolean
+            required:
+            - keyword
+            - is_before
+            $ref: '#/components/schemas/SplitKeyword'
+          description: The keyword(s) the parser will look for when splitting documents by page.
+        split_page:
+          type:
+          - integer
+          - 'null'
+          description: If not 0, this is the number of pages the parser will use to split in a file uploaded to this parser. If set to three, the parser will split a 30 page document 10 times, resulting in 10 files.
+        split_page_range_set:
+          type: array
+          items:
+            properties:
+              start_index:
+                type: integer
+              end_index:
+                type:
+                - integer
+                - 'null'
+            required:
+            - start_index
+            - end_index
+            $ref: '#/components/schemas/PageRange'
+          description: The specific page ranges set to be captured in this parser. Can have multiple values, i.e. 1,3-5,(1)
+        template_count:
+          type: integer
+          readOnly: true
+          description: The number of templates the parser has.
+        webhook_count:
+          type: integer
+          readOnly: true
+          description: The number of webhooks the parser has.
+        attachments_field:
+          type: boolean
+          description: Whether the Attachments metadata field is enabled for this parser.
+        original_document_field:
+          type: boolean
+          description: Whether the OriginalDocument metadata fields are enabled for this parser.
+        searchable_pdf_field:
+          type: boolean
+          description: Whether the SearchablePDF metadata field is enabled for this parser.
+        headers_field:
+          type: boolean
+          description: Whether the Headers metadata field is enabled for this parser.
+        received_field:
+          type: boolean
+          description: Whether the Received metadata field is enabled for this parser.
+        received_date_field:
+          type: boolean
+          description: Whether the ReceivedDate metadata field is enabled for this parser.
+        received_time_field:
+          type: boolean
+          description: Whether the ReceivedTime metadata field is enabled for this parser.
+        processed_field:
+          type: boolean
+          description: Whether the Processed metadata field is enabled for this parser.
+        processed_date_field:
+          type: boolean
+          description: Whether the ProcessedDate metadata field is enabled for this parser.
+        processed_time_field:
+          type: boolean
+          description: Whether the ProcessedTime metadata field is enabled for this parser.
+        sender_field:
+          type: boolean
+          description: Whether the Sender metadata field is enabled for this parser.
+        sender_name_field:
+          type: boolean
+          description: Whether the SenderName metadata field is enabled for this parser.
+        split_page_range_field:
+          type: boolean
+          description: Whether the SplitPageRange metadata field is enabled for this parser.
+        recipient_field:
+          type: boolean
+          description: Whether the Recipient metadata field is enabled for this parser.
+        to_field:
+          type: boolean
+          description: Whether the To metadata field is enabled for this parser.
+        cc_field:
+          type: boolean
+          description: Whether the CC metadata field is enabled for this parser.
+        bcc_field:
+          type: boolean
+          description: Whether the BCC metadata field is enabled for this parser.
+        reply_to_field:
+          type: boolean
+          description: Whether the ReplyTo metadata field is enabled for this parser.
+        recipient_suffix_field:
+          type: boolean
+          description: Whether the RecipientSuffix metadata field is enabled for this parser.
+        original_recipient_field:
+          type: boolean
+          description: Whether the OriginalRecipient metadata field is enabled for this parser.
+        subject_field:
+          type: boolean
+          description: Whether the Subject metadata field is enabled for this parser.
+        template_field:
+          type: boolean
+          description: Whether the Template metadata field is enabled for this parser.
+        html_document_field:
+          type: boolean
+          description: Whether the HTMLDocument metadata field is enabled for this parser.
+        text_document_field:
+          type: boolean
+          description: Whether the TextDocument metadata field is enabled for this parser.
+        content_field:
+          type: boolean
+          description: Whether the Content metadata field is enabled for this parser.
+        last_reply_field:
+          type: boolean
+          description: Whether the LastReply metadata field is enabled for this parser.
+        document_id_field:
+          type: boolean
+          description: Whether the DocumentID metadata field is enabled for this parser.
+        parent_id_field:
+          type: boolean
+          description: Whether the ParentID metadata field is enabled for this parser.
+        document_url_field:
+          type: boolean
+          description: Whether the DocumentURL metadata field is enabled for this parser.
+        public_document_url_field:
+          type: boolean
+          description: Whether the PublicDocumentURL metadata field is enabled for this parser.
+        page_count_field:
+          type: boolean
+          description: Whether the PageCount metadata field is enabled for this parser.
+        credit_count_field:
+          type: boolean
+          description: Whether the CreditCount metadata field is enabled for this parser.
+        mailbox_id_field:
+          type: boolean
+          description: Whether the MailboxID metadata field is enabled for this parser.
+        parsing_engine_field:
+          type: boolean
+          description: Whether the ParsingEngine metadata field is enabled for this parser.
+        available_webhook_set:
+          type: array
+          items:
+            properties: {}
+            $ref: '#/components/schemas/Webhook'
+        webhook_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/Webhook'
+        table_set:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+                description: ID
+              name:
+                type: string
+                description: name
+            required:
+            - id
+            - name
+            $ref: '#/components/schemas/ParserFieldDiet'
+          readOnly: true
+    TemplateActionEnum:
+      type: string
+      enum:
+      - PROCESS
+      - SKIP
+      - DELETE
+      - PROCESS_THEN_DELETE
+      default: PROCESS
+    ExportConfig:
+      type: object
+      properties:
+        id:
+          type: number
+          readOnly: true
+        name:
+          type:
+          - string
+          - 'null'
+          description: Download name
+        type:
+          type: string
+          enum:
+          - PARSER
+          - PARSER_FIELD
+          default: PARSER
+        parser_field_id:
+          type:
+          - string
+          - 'null'
+          description: Parser field ID starting with PF
+        parser_field_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        items:
+          type: array
+          items:
+            type: string
+        csv_download:
+          type: string
+          readOnly: true
+        xls_download:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - name
+      - type
+      - items
+      - csv_download
+      - xls_download
+    SplitKeyword:
+      type: object
+      properties:
+        keyword:
+          type: string
+        is_before:
+          type: boolean
+      required:
+      - keyword
+      - is_before
+    DocumentStatusEnum:
+      type: string
+      enum:
+      - INCOMING
+      - ANALYZING
+      - PROGRESS
+      - PARSEDOK
+      - PARSEDKO
+      - QUOTAEXC
+      - SKIPPED
+      - SPLIT
+      - EXPORTKO
+      - TRANSKO
+      - INVALID
+      readOnly: true
+    ParserField:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        format:
+          $ref: '#/components/schemas/ParserFieldFormatEnum'
+        choice_set:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of possible choice values. Only used when format is ONELINE.
+        is_required:
+          type:
+          - boolean
+          - 'null'
+          default: false
+        query:
+          type:
+          - string
+          - 'null'
+          description: Instructions for AI engine
+        json_download:
+          type: string
+          format: uri
+          readOnly: true
+        csv_download:
+          type: string
+          format: uri
+          readOnly: true
+        xls_download:
+          type: string
+          format: uri
+          readOnly: true
+        type:
+          type: string
+          const: FIELD
+          readOnly: true
+        parser_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParserField'
+          description: Only for TABLE fields
+        used_by_ai:
+          type:
+          - boolean
+          - 'null'
+          description: If false, that field will not be extracted by AI engines
+          default: true
+      required:
+      - id
+      - name
+      - format
+    TemplateStatusEnum:
+      type: string
+      enum:
+      - DRAFT
+      - PROD
+      default: PROD
+    Parser:
+      type: object
+      properties:
+        account_uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          description: The Universally Unique Identifier for your account.
+        ai_engine:
+          $ref: '#/components/schemas/AIEngineEnum'
+          description: The AI engine being used for this parser, if any.
+        ai_instructions:
+          type:
+          - string
+          - 'null'
+          description: General AI instruction for this parser.
+        allowed_extensions:
+          type: array
+          items:
+            type: string
+            enum:
+            - bmp
+            - csv
+            - doc
+            - docx
+            - eml
+            - gif
+            - html
+            - ics
+            - jpg
+            - mbox
+            - msg
+            - ods
+            - odt
+            - pdf
+            - png
+            - rtf
+            - tif
+            - txt
+            - xhtml
+            - xls
+            - xlsm
+            - xlsx
+            - xml
+            - zip
+          description: List of files extensions to process. If not present, all extensions will be enabled.
+        attachments_only:
+          type: boolean
+          readOnly: true
+          description: Whether the parser in question skips email processing or not (read-only).
+        attachments_only_override:
+          type:
+          - boolean
+          - 'null'
+          description: Use this to update attachments_only.
+        can_transform:
+          type: boolean
+          readOnly: true
+          description: Whether Python Post-Processing is enabled for this parser.
+        disable_deskew:
+          type: boolean
+          description: Whether deskew is disabled for this parser (enabled by default).
+        enable_layouted_text:
+          type: boolean
+        document_count:
+          type: integer
+          readOnly: true
+          description: The number of documents in the parser.
+        document_per_status_count:
+          type: object
+          properties:
+            INCOMING:
+              type: integer
+              readOnly: true
+              description: Files that have been received by our system but are awaiting processing.
+            ANALYZING:
+              type: integer
+              readOnly: true
+              description: Files being analyzed against our system's import parameters and the user's mailbox settings.
+            PROGRESS:
+              type: integer
+              readOnly: true
+              description: Files currently being processed by active AI engine for that mailbox.
+            PARSEDOK:
+              type: integer
+              readOnly: true
+              description: Files that have been processed and data is available for export.
+            PARSEDKO:
+              type: integer
+              readOnly: true
+              description: Files where processing failed.
+            QUOTAEXC:
+              type: integer
+              readOnly: true
+              description: Files where processing was stopped because the user does not have enough credits to process them.
+            SKIPPED:
+              type: integer
+              readOnly: true
+              description: Files that were skipped because of a template.
+            SPLIT:
+              type: integer
+              readOnly: true
+              description: Files that were split into multiple documents.
+            EXPORTKO:
+              type: integer
+              readOnly: true
+              description: Files where exporting the parsed data failed.
+            TRANSKO:
+              type: integer
+              readOnly: true
+              description: Files where our Python post-processing failed to process.
+            INVALID:
+              type: integer
+              readOnly: true
+              description: Files that were not processed because they are not supported by our system.
+          required:
+          - INCOMING
+          - ANALYZING
+          - PROGRESS
+          - PARSEDOK
+          - PARSEDKO
+          - QUOTAEXC
+          - SKIPPED
+          - SPLIT
+          - EXPORTKO
+          - TRANSKO
+          - INVALID
+          readOnly: true
+          description: This is a breakdown of the documents in the parser by status.
+        email_prefix:
+          type: string
+          description: The email prefix for the parser.
+        even_pages:
+          type: boolean
+          description: Whether the parser is configured to process only even page numbers in a document.
+        force_ocr:
+          type: boolean
+          description: Whether Parseur runs its own OCR on every document uploaded to this parser.
+        id:
+          type: integer
+          readOnly: true
+          description: The internal ID number for the parser.
+        is_master:
+          type: boolean
+          description: Whether this is a master parser that passes its instructions on to others.
+          readOnly: true
+          default: false
+        last_activity:
+          type: string
+          format: date-time
+          readOnly: true
+        master_parser_name:
+          type: string
+          readOnly: true
+          description: The name of this parser's master parser.
+        master_parser_slug:
+          description: The slug of this parser's master parser.
+          $ref: '#/components/schemas/ParserMasterSlugEnum'
+        name:
+          type: string
+          description: The name of the parser.
+        odd_pages:
+          type: boolean
+          description: Whether the parser is configured to process only odd page numbers in a document.
+        page_range_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageRange'
+          description: The range of pages set to be processed in the parser.
+        parser_object_count:
+          type: integer
+          readOnly: true
+          description: The total number of field and metadata outputs currently configured in the parser.
+        parser_object_set_last_modified:
+          type: string
+          format: date-time
+          readOnly: true
+        process_attachments:
+          type: boolean
+          description: Whether email attachment processing is enabled on this parser.
+        retention_policy:
+          type: integer
+          description: How many days documents and data are stored on our servers before deletion (90 days is the detaulf).
+        split_keywords:
+          anyOf:
+          - $ref: '#/components/schemas/SplitKeyword'
+          - type: 'null'
+          description: The keyword(s) the parser will look for when splitting documents by page.
+        split_page:
+          type:
+          - integer
+          - 'null'
+          description: If not 0, this is the number of pages the parser will use to split in a file uploaded to this parser. If set to three, the parser will split a 30 page document 10 times, resulting in 10 files.
+        split_page_range_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageRange'
+          description: The specific page ranges set to be captured in this parser. Can have multiple values, i.e. 1,3-5,(1)
+        template_count:
+          type: integer
+          readOnly: true
+          description: The number of templates the parser has.
+        webhook_count:
+          type: integer
+          readOnly: true
+          description: The number of webhooks the parser has.
+        attachments_field:
+          type: boolean
+          description: Whether the Attachments metadata field is enabled for this parser.
+        original_document_field:
+          type: boolean
+          description: Whether the OriginalDocument metadata field is enabled for this parser.
+        searchable_pdf_field:
+          type: boolean
+          description: Whether the SearchablePDF metadata field is enabled for this parser.
+        headers_field:
+          type: boolean
+          description: Whether the Headers metadata field is enabled for this parser.
+        received_field:
+          type: boolean
+          description: Whether the Received metadata field is enabled for this parser.
+        received_date_field:
+          type: boolean
+          description: Whether the ReceivedDate metadata field is enabled for this parser.
+        received_time_field:
+          type: boolean
+          description: Whether the ReceivedTime metadata field is enabled for this parser.
+        processed_field:
+          type: boolean
+          description: Whether the Processed metadata field is enabled for this parser.
+        processed_date_field:
+          type: boolean
+          description: Whether the ProcessedDate metadata field is enabled for this parser.
+        processed_time_field:
+          type: boolean
+          description: Whether the ProcessedTime metadata field is enabled for this parser.
+        sender_field:
+          type: boolean
+          description: Whether the Sender metadata field is enabled for this parser.
+        sender_name_field:
+          type: boolean
+          description: Whether the SenderName metadata field is enabled for this parser.
+        split_page_range_field:
+          type: boolean
+          description: Whether the SplitPageRange metadata field is enabled for this parser.
+        recipient_field:
+          type: boolean
+          description: Whether the Recipient metadata field is enabled for this parser.
+        to_field:
+          type: boolean
+          description: Whether the To metadata field is enabled for this parser.
+        cc_field:
+          type: boolean
+          description: Whether the CC metadata field is enabled for this parser.
+        bcc_field:
+          type: boolean
+          description: Whether the BCC metadata field is enabled for this parser.
+        reply_to_field:
+          type: boolean
+          description: Whether the ReplyTo metadata field is enabled for this parser.
+        recipient_suffix_field:
+          type: boolean
+          description: Whether the RecipientSuffix metadata field is enabled for this parser.
+        original_recipient_field:
+          type: boolean
+          description: Whether the OriginalRecipient metadata field is enabled for this parser.
+        subject_field:
+          type: boolean
+          description: Whether the Subject metadata field is enabled for this parser.
+        template_field:
+          type: boolean
+          description: Whether the Template metadata field is enabled for this parser.
+        html_document_field:
+          type: boolean
+          description: Whether the HTMLDocument metadata field is enabled for this parser.
+        text_document_field:
+          type: boolean
+          description: Whether the TextDocument metadata field is enabled for this parser.
+        content_field:
+          type: boolean
+          description: Whether the Content metadata field is enabled for this parser.
+        last_reply_field:
+          type: boolean
+          description: Whether the LastReply metadata field is enabled for this parser.
+        document_id_field:
+          type: boolean
+          description: Whether the DocumentID metadata field is enabled for this parser.
+        parent_id_field:
+          type: boolean
+          description: Whether the ParentID metadata field is enabled for this parser.
+        document_url_field:
+          type: boolean
+          description: Whether the DocumentURL metadata field is enabled for this parser.
+        public_document_url_field:
+          type: boolean
+          description: Whether the PublicDocumentURL metadata field is enabled for this parser.
+        page_count_field:
+          type: boolean
+          description: Whether the PageCount metadata field is enabled for this parser.
+        credit_count_field:
+          type: boolean
+          description: Whether the CreditCount metadata field is enabled for this parser.
+        mailbox_id_field:
+          type: boolean
+          description: Whether the MailboxID metadata field is enabled for this parser.
+        parsing_engine_field:
+          type: boolean
+          description: Whether the ParsingEngine metadata field is enabled for this parser.
+        csv_download:
+          type: string
+          format: uri
+          readOnly: true
+        decimal_separator:
+          anyOf:
+          - $ref: '#/components/schemas/DecimalSeparatorEnum'
+          - type: 'null'
+        default_timezone:
+          type:
+          - string
+          - 'null'
+        disable_document_links:
+          type: boolean
+        expand_result:
+          type: boolean
+        extract_xml_from_comment:
+          type: boolean
+        input_date_format:
+          anyOf:
+          - $ref: '#/components/schemas/InputDateFormatEnum'
+          - type: 'null'
+        identification_status:
+          $ref: '#/components/schemas/ParserIdentificationStatusEnum'
+        is_transform_enabled:
+          type: boolean
+        json_download:
+          type: string
+          format: uri
+          readOnly: true
+        parser_object_set:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              format:
+                type: string
+              is_optional:
+                type:
+                - boolean
+                - 'null'
+              query:
+                type:
+                - string
+                - 'null'
+              json_download:
+                type: string
+              csv_download:
+                type: string
+              xls_download:
+                type: string
+              type:
+                type: string
+              parser_object_set:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    format:
+                      type: string
+                    is_optional:
+                      type: 'null'
+                    query:
+                      type:
+                      - string
+                      - 'null'
+                    json_download:
+                      type: string
+                    csv_download:
+                      type: string
+                    xls_download:
+                      type: string
+                    type:
+                      type: string
+                  required:
+                  - id
+                  - name
+                  - format
+                  - is_optional
+                  - query
+                  - json_download
+                  - csv_download
+                  - xls_download
+                  - type
+            required:
+            - id
+            - name
+            - format
+            - is_optional
+            - query
+            - json_download
+            - csv_download
+            - xls_download
+            - type
+            - parser_object_set
+            $ref: '#/components/schemas/ParserField'
+          description: The list of fields in a parser.
+        pdf_conversion_format:
+          type: string
+        secret:
+          type: string
+          readOnly: true
+        transform:
+          type:
+          - string
+          - 'null'
+        use_whitelist_instead_of_blacklist:
+          type: boolean
+        template_set_last_modified:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        webhook_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/Webhook'
+        xls_download:
+          type: string
+          format: uri
+          readOnly: true
+        available_webhook_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/Webhook'
+          readOnly: true
+        table_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParserFieldDiet'
+          readOnly: true
+        emails_or_domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailOrDomain'
+      required:
+      - account_uuid
+      - document_per_status_count
+      - id
+      - is_master
+      - last_activity
+      - parser_object_set_last_modified
+      - csv_download
+      - json_download
+      - secret
+      - template_set_last_modified
+      - xls_download
+      - table_set
+      - can_transform
+      - document_count
+      - parser_object_count
+      - available_webhook_set
+      - attachments_only
+    DocumentStatusSourceEnum:
+      type:
+      - string
+      - 'null'
+      readOnly: true
+      enum:
+      - AI
+      - AUTO
+      - CSV
+      - METADATA
+      - MANUAL
+      - TEMPLATE
+      - TRANSFORM
+    ParserIdentificationStatusEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - REQUESTED
+      - PROGRESS
+      - COMPLETED
+      - MANUAL
+      default: MANUAL
+    DocumentDiet:
+      type: object
+      properties:
+        attached_to:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        match_master_template:
+          type: boolean
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        ocr_ready_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        original_document_url:
+          type: string
+          format: uri
+          readOnly: true
+        parser:
+          type: integer
+          readOnly: true
+        processed:
+          type: string
+          format: date-time
+          readOnly: true
+        received:
+          type: string
+          format: date-time
+          readOnly: true
+        sample_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateSample'
+          readOnly: true
+        status_source:
+          $ref: '#/components/schemas/DocumentStatusSourceEnum'
+        status:
+          $ref: '#/components/schemas/DocumentStatusEnum'
+        template:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        credits_used:
+          type: integer
+          readOnly: true
+        conventional_credits_used:
+          type: integer
+          readOnly: true
+        ai_credits_used:
+          type: integer
+          readOnly: true
+        is_ai_ready:
+          type: boolean
+          readOnly: true
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        is_processable:
+          type: boolean
+          readOnly: true
+        is_splittable:
+          type: boolean
+          readOnly: true
+        is_split:
+          type: boolean
+          readOnly: true
+        json_download_url:
+          type: string
+          format: uri
+          readOnly: true
+        csv_download_url:
+          type: string
+          format: uri
+          readOnly: true
+        xls_download_url:
+          type: string
+          format: uri
+          readOnly: true
+        result:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Only present when using with_result=true query parameter
+      required:
+      - attached_to
+      - id
+      - match_master_template
+      - name
+      - original_document_url
+      - parser
+      - processed
+      - received
+      - sample_set
+      - status_source
+      - status
+      - template
+      - credits_used
+      - conventional_credits_used
+      - ai_credits_used
+      - is_ai_ready
+      - is_ocr_ready
+      - is_processable
+      - is_splittable
+      - is_split
+      - json_download_url
+      - csv_download_url
+      - xls_download_url
+      - ocr_ready_url
+    TemplateSample:
+      type:
+      - object
+      - 'null'
+      properties:
+        template_id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        sample_count:
+          type: integer
+          readOnly: true
+      required:
+      - template_id
+      - name
+      - sample_count
+      readOnly: true
+    DecimalSeparatorEnum:
+      type: string
+      enum:
+      - .
+      - ','
+      default: .
+    InputDateFormatEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - MONTH_FIRST
+      - DAY_FIRST
+    EmailOrDomain:
+      anyOf:
+      - type: string
+        format: email
+      - type: string
+        format: hostname
+    WebhookEventEnum:
+      type: string
+      enum:
+      - document.processed
+      - document.processed.flattened
+      - document.template_needed
+      - document.export_failed
+      - table.processed
+    AIEngineEnum:
+      type: string
+      enum:
+      - DISABLED
+      - GCP_AI_2
+      - GCP_AI_2_5
+      default: DISABLED
+    ParserFieldDiet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID
+          readOnly: true
+        name:
+          type: string
+          description: name
+          readOnly: true
+      required:
+      - id
+      - name
+      readOnly: true
+    PageRange:
+      type: object
+      properties:
+        start_index:
+          type: integer
+        end_index:
+          type:
+          - integer
+          - 'null'
+      required:
+      - start_index
+      - end_index
+    ParserFieldFormatEnum:
+      type: string
+      enum:
+      - TEXT
+      - ONELINE
+      - DATE
+      - TIME
+      - DATETIME
+      - NUMBER
+      - NAME
+      - ADDRESS
+      - TABLE
+      - LINK
+      default: TEXT
+    TemplateDiet:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        parser:
+          type: integer
+        engine:
+          $ref: '#/components/schemas/TemplateEngineEnum'
+        action:
+          $ref: '#/components/schemas/TemplateActionEnum'
+        status:
+          $ref: '#/components/schemas/TemplateStatusEnum'
+        margin:
+          type: object
+          properties:
+            default:
+              type: object
+              properties:
+                lower:
+                  type: integer
+                upper:
+                  type: integer
+        document_count:
+          type: integer
+          readOnly: true
+        last_activity:
+          type: string
+          format: date-time
+          readOnly: true
+        decimal_separator:
+          anyOf:
+          - $ref: '#/components/schemas/DecimalSeparatorEnum'
+          - type: 'null'
+        input_date_format:
+          anyOf:
+          - $ref: '#/components/schemas/InputDateFormatEnum'
+          - type: 'null'
+      required:
+      - last_activity
+      - document_count
+      - status
+      - action
+      - engine
+      - parser
+      - id
+      - name
+    TemplateEngineEnum:
+      type: string
+      enum:
+      - TXT
+      - OCR
+      default: TXT
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        event:
+          $ref: '#/components/schemas/WebhookEventEnum'
+        target:
+          type: string
+          format: uri
+        name:
+          type: string
+        headers:
+          type:
+          - object
+          - 'null'
+          properties: {}
+        category:
+          $ref: '#/components/schemas/WebhookCategory'
+        parser_field_set:
+          type: array
+          items:
+            type: string
+          description: Only for table.processed events
+      required:
+      - id
+      - event
+      - target
+      - category
+    WebhookCategory:
+      type: string
+      enum:
+      - CUSTOM
+      - ZAPIER
+      - MAKE
+      - FLOW
+      - N8N
+    ParserMasterSlugEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - invoices
+      - statements
+      - job-application
+      - leads
+      - resume-cv
+      - food-delivery
+      - search-alerts
+      - real-estate
+      - work-order
+      - financial-statement
+      - utility
+      - contact-list
+      - delivery-notes
+      - property-bookings
+      - job-search
+      - travel
+      - automotive
+      - payslip
+      - event-ticketing
+  responses:
+    Authentication Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+    Not Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Use header: Authorization: Token YOUR_API_KEY. API keys are here: https://app.parseur.com/account/api-keys'

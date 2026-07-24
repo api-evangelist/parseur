@@ -1,0 +1,809 @@
+openapi: 3.1.0
+info:
+  title: Parseur async Template API
+  description: ''
+  version: 1.0.0
+servers:
+- url: https://api.parseur.com
+  description: Parseur API
+security:
+- TokenAuth: []
+tags:
+- name: Template
+paths:
+  /template/{id}:
+    get:
+      summary: Get a template
+      deprecated: false
+      description: ''
+      tags:
+      - Template
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{TEMPLATE_ID}}'
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  parser:
+                    type: integer
+                  engine:
+                    type: string
+                  action:
+                    type: string
+                  status:
+                    type: string
+                  margin:
+                    type: object
+                    properties:
+                      default:
+                        type: object
+                        properties:
+                          lower:
+                            type: integer
+                          upper:
+                            type: integer
+                        required:
+                        - lower
+                        - upper
+                    required:
+                    - default
+                  document_count:
+                    type: integer
+                  last_activity:
+                    type: string
+                  decimal_separator:
+                    type: 'null'
+                  input_date_format:
+                    type: 'null'
+                  template_object_set:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        parser_field:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            format:
+                              type: string
+                            is_optional:
+                              type: 'null'
+                            name:
+                              type: string
+                            query:
+                              type: string
+                            type:
+                              type: string
+                            static_value:
+                              type: 'null'
+                          required:
+                          - id
+                          - format
+                          - is_optional
+                          - name
+                          - query
+                          - type
+                          - static_value
+                        upper_left_relative_field:
+                          type: 'null'
+                        lower_right_relative_field:
+                          type: 'null'
+                        format:
+                          type: 'null'
+                        id:
+                          type: string
+                        is_required:
+                          type: boolean
+                        name:
+                          type: string
+                        relative_box:
+                          type: object
+                          properties:
+                            left_x:
+                              type: number
+                            upper_y:
+                              type: number
+                            right_x:
+                              type: number
+                            lower_y:
+                              type: number
+                            start_page_index:
+                              type: integer
+                            end_page_index:
+                              type: integer
+                          required:
+                          - left_x
+                          - upper_y
+                          - right_x
+                          - lower_y
+                          - start_page_index
+                          - end_page_index
+                        type:
+                          type: string
+                        template_object_set:
+                          type: array
+                          items:
+                            type: string
+                      required:
+                      - parser_field
+                      - upper_left_relative_field
+                      - lower_right_relative_field
+                      - format
+                      - id
+                      - is_required
+                      - name
+                      - relative_box
+                      - type
+                      - template_object_set
+                  template_static_object_set:
+                    type: array
+                    items:
+                      type: string
+                  unused_parser_object_set:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        format:
+                          type: string
+                        is_optional:
+                          type:
+                          - boolean
+                          - 'null'
+                        name:
+                          type: string
+                        query:
+                          type:
+                          - string
+                          - 'null'
+                        type:
+                          type: string
+                        static_value:
+                          type: 'null'
+                        parser_object_set:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              type:
+                                type: string
+                              format:
+                                type: string
+                              position:
+                                type: 'null'
+                              name:
+                                type: string
+                              query:
+                                type:
+                                - string
+                                - 'null'
+                              static_value:
+                                type: 'null'
+                              is_optional:
+                                type: 'null'
+                              csv_download:
+                                type: string
+                              json_download:
+                                type: string
+                              xls_download:
+                                type: string
+                            required:
+                            - id
+                            - type
+                            - format
+                            - position
+                            - name
+                            - query
+                            - static_value
+                            - is_optional
+                            - csv_download
+                            - json_download
+                            - xls_download
+                      required:
+                      - id
+                      - format
+                      - is_optional
+                      - name
+                      - query
+                      - type
+                      - static_value
+                      - parser_object_set
+                  sample_set:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        comment:
+                          type: 'null'
+                        is_ocr_ready:
+                          type: boolean
+                        ocr_ready_url:
+                          type: string
+                        ocr_page_set:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              image:
+                                type: object
+                                properties:
+                                  url:
+                                    type: string
+                                  width:
+                                    type: integer
+                                  height:
+                                    type: integer
+                                  content_type:
+                                    type: string
+                                required:
+                                - url
+                                - width
+                                - height
+                                - content_type
+                              position:
+                                type: integer
+                              included_in_range:
+                                type: boolean
+                            required:
+                            - image
+                            - position
+                            - included_in_range
+                required:
+                - id
+                - name
+                - parser
+                - engine
+                - action
+                - status
+                - margin
+                - document_count
+                - last_activity
+                - decimal_separator
+                - input_date_format
+                - template_object_set
+                - template_static_object_set
+                - unused_parser_object_set
+                - sample_set
+                $ref: '#/components/schemas/Template'
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: No Template matches the given query.
+          headers: {}
+      security:
+      - TokenAuth: []
+    delete:
+      summary: Delete a template
+      deprecated: false
+      description: ''
+      tags:
+      - Template
+      parameters:
+      - name: id
+        in: path
+        description: ''
+        required: true
+        example: '{{TEMPLATE_ID}}'
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Deleted
+          headers: {}
+        '403':
+          $ref: '#/components/responses/Authentication Error'
+          description: ''
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  non_field_errors:
+                    type: string
+                required:
+                - non_field_errors
+              example:
+                non_field_errors: No Template matches the given query.
+          headers: {}
+      security:
+      - TokenAuth: []
+components:
+  schemas:
+    TemplateEngineEnum:
+      type: string
+      enum:
+      - TXT
+      - OCR
+      default: TXT
+    TemplateStatusEnum:
+      type: string
+      enum:
+      - DRAFT
+      - PROD
+      default: PROD
+    TemplateFieldFormatEnum:
+      type: string
+      enum:
+      - HTML
+      - TEXT
+      - RAW
+      - HTML_LIST
+      - TEXT_LIST
+      - HTML_VTABLE
+      - TEXT_VTABLE
+      - HTML_HTABLE
+      - TEXT_HTABLE
+      - OCR_TEXT
+      - OCR_VTABLE
+      - OCR_HTABLE
+    TemplateField:
+      type: object
+      properties:
+        parser_field:
+          $ref: '#/components/schemas/ParserField'
+          description: Only for template fields of type FIELD
+        upper_left_relative_field:
+          type:
+          - string
+          - 'null'
+          description: Only for OCR templates
+        lower_right_relative_field:
+          type:
+          - string
+          - 'null'
+          description: Only for OCR templates
+        format:
+          anyOf:
+          - $ref: '#/components/schemas/TemplateFieldFormatEnum'
+          - type: 'null'
+        id:
+          type: string
+          readOnly: true
+        is_required:
+          type: boolean
+          description: Only for OCR templates
+        name:
+          type: string
+        relative_box:
+          type: object
+          properties:
+            left_x:
+              type: number
+            upper_y:
+              type: number
+            right_x:
+              type: number
+            lower_y:
+              type: number
+            start_page_index:
+              type: integer
+            end_page_index:
+              type: integer
+          required:
+          - left_x
+          - upper_y
+          - right_x
+          - lower_y
+          - start_page_index
+          - end_page_index
+          description: Only for OCR templates
+        type:
+          type: string
+          enum:
+          - FIELD
+          - LABEL
+          - DELIMITER
+          - IGNORED
+        template_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateField'
+          description: Only for TABLE fields
+      required:
+      - id
+    OcrPage:
+      type: object
+      properties:
+        image:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              readOnly: true
+            width:
+              type: integer
+              readOnly: true
+            height:
+              type: integer
+              readOnly: true
+            content_type:
+              type: string
+              const: image/jpeg
+              readOnly: true
+          required:
+          - url
+          - width
+          - height
+          - content_type
+          readOnly: true
+        position:
+          type: integer
+          readOnly: true
+        included_in_range:
+          type: boolean
+          readOnly: true
+      readOnly: true
+    TemplateActionEnum:
+      type: string
+      enum:
+      - PROCESS
+      - SKIP
+      - DELETE
+      - PROCESS_THEN_DELETE
+      default: PROCESS
+    DocumentSample:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        comment:
+          type:
+          - string
+          - 'null'
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        ocr_ready_url:
+          type: string
+          format: uri
+          readOnly: true
+        ocr_page_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcrPage'
+          readOnly: true
+    DecimalSeparatorEnum:
+      type: string
+      enum:
+      - .
+      - ','
+      default: .
+    InputDateFormatEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - MONTH_FIRST
+      - DAY_FIRST
+    ParserFieldFormatEnum:
+      type: string
+      enum:
+      - TEXT
+      - ONELINE
+      - DATE
+      - TIME
+      - DATETIME
+      - NUMBER
+      - NAME
+      - ADDRESS
+      - TABLE
+      - LINK
+      default: TEXT
+    Template:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        parser:
+          type: integer
+        engine:
+          $ref: '#/components/schemas/TemplateEngineEnum'
+        action:
+          $ref: '#/components/schemas/TemplateActionEnum'
+        status:
+          $ref: '#/components/schemas/TemplateStatusEnum'
+        margin:
+          type: object
+          properties:
+            default:
+              type: object
+              properties:
+                lower:
+                  type: integer
+                upper:
+                  type: integer
+              required:
+              - lower
+              - upper
+          required:
+          - default
+        document_count:
+          type: integer
+          readOnly: true
+        last_activity:
+          type: string
+          format: date-time
+          readOnly: true
+        decimal_separator:
+          anyOf:
+          - $ref: '#/components/schemas/DecimalSeparatorEnum'
+          - type: 'null'
+        input_date_format:
+          anyOf:
+          - $ref: '#/components/schemas/InputDateFormatEnum'
+          - type: 'null'
+        template_object_set:
+          type: array
+          items:
+            properties:
+              parser_field:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  format:
+                    type: string
+                  is_optional:
+                    type: 'null'
+                  name:
+                    type: string
+                  query:
+                    type: string
+                  type:
+                    type: string
+                  static_value:
+                    type: 'null'
+                required:
+                - id
+                - format
+                - is_optional
+                - name
+                - query
+                - type
+                - static_value
+              upper_left_relative_field:
+                type: 'null'
+              lower_right_relative_field:
+                type: 'null'
+              format:
+                type: 'null'
+              id:
+                type: string
+              is_required:
+                type: boolean
+              name:
+                type: string
+              relative_box:
+                type: object
+                properties:
+                  left_x:
+                    type: number
+                  upper_y:
+                    type: number
+                  right_x:
+                    type: number
+                  lower_y:
+                    type: number
+                  start_page_index:
+                    type: integer
+                  end_page_index:
+                    type: integer
+                required:
+                - left_x
+                - upper_y
+                - right_x
+                - lower_y
+                - start_page_index
+                - end_page_index
+              type:
+                type: string
+              template_object_set:
+                type: array
+                items:
+                  type: string
+            required:
+            - parser_field
+            - upper_left_relative_field
+            - lower_right_relative_field
+            - format
+            - id
+            - is_required
+            - name
+            - relative_box
+            - type
+            - template_object_set
+            $ref: '#/components/schemas/TemplateField'
+        template_static_object_set:
+          type: array
+          items:
+            type: string
+        unused_parser_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParserField'
+        sample_set:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              comment:
+                type: 'null'
+              is_ocr_ready:
+                type: boolean
+              ocr_ready_url:
+                type: string
+              ocr_page_set:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    image:
+                      type: object
+                      properties:
+                        url:
+                          type: string
+                        width:
+                          type: integer
+                        height:
+                          type: integer
+                        content_type:
+                          type: string
+                      required:
+                      - url
+                      - width
+                      - height
+                      - content_type
+                    position:
+                      type: integer
+                    included_in_range:
+                      type: boolean
+                  required:
+                  - image
+                  - position
+                  - included_in_range
+            $ref: '#/components/schemas/DocumentSample'
+          description: Only for OCR templates
+      required:
+      - id
+      - parser
+      - engine
+      - action
+      - status
+      - document_count
+      - last_activity
+      - template_object_set
+      - template_static_object_set
+      - unused_parser_object_set
+    ParserField:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        format:
+          $ref: '#/components/schemas/ParserFieldFormatEnum'
+        choice_set:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of possible choice values. Only used when format is ONELINE.
+        is_required:
+          type:
+          - boolean
+          - 'null'
+          default: false
+        query:
+          type:
+          - string
+          - 'null'
+          description: Instructions for AI engine
+        json_download:
+          type: string
+          format: uri
+          readOnly: true
+        csv_download:
+          type: string
+          format: uri
+          readOnly: true
+        xls_download:
+          type: string
+          format: uri
+          readOnly: true
+        type:
+          type: string
+          const: FIELD
+          readOnly: true
+        parser_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParserField'
+          description: Only for TABLE fields
+        used_by_ai:
+          type:
+          - boolean
+          - 'null'
+          description: If false, that field will not be extracted by AI engines
+          default: true
+      required:
+      - id
+      - name
+      - format
+  responses:
+    Authentication Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Use header: Authorization: Token YOUR_API_KEY. API keys are here: https://app.parseur.com/account/api-keys'
