@@ -17,9 +17,21 @@ description: >-
   pages processed, with a permanent free tier (20 pages/month) and Base,
   Scale, and Enterprise tiers that scale up to 10 million pages per month.
 type: Index
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Provider
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/parseur.png
 tags:
   - AI
   - Artificial Intelligence
@@ -39,47 +51,150 @@ created: '2026-05-25'
 modified: '2026-05-25'
 specificationVersion: '0.20'
 apis:
-  - aid: parseur:parseur-api
-    name: Parseur API
-    description: >-
-      The Parseur REST API exposes 29 operations across mailboxes (parsers),
-      documents, templates, custom downloads (export configs), webhooks, and
-      account bootstrap. Documents can be ingested as binary uploads to
-      /parser/{id}/upload or as email/text payloads to /email; parsing is
-      asynchronous, with results retrievable via /document/{id} once status
-      transitions to processed. Webhooks deliver real-time events to your
-      endpoint and can be enabled/disabled per mailbox. Authentication uses
-      a Token-prefixed Authorization header carrying the account API key
-      from the Parseur Account Overview. Base URL is https://api.parseur.com
-      and rate limits are 5 requests/second per IP with a burst of 20.
-    humanURL: https://developer.parseur.com/
-    baseURL: https://api.parseur.com
-    tags:
-      - Documents
-      - Mailboxes
-      - Templates
-      - Webhooks
-      - Exports
-      - AI
-      - OCR
-    properties:
-      - type: Documentation
-        url: https://developer.parseur.com/
-      - type: Documentation
-        url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
-      - type: Documentation
-        url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
-      - type: OpenAPI
-        url: openapi/parseur-openapi.yml
-      - type: SDKs
-        url: https://github.com/parseur/parseur-py
-        name: parseur-py (Python)
-      - type: Authentication
-        url: https://developer.parseur.com/
-      - type: RateLimits
-        url: https://developer.parseur.com/
-      - type: Webhooks
-        url: https://developer.parseur.com/
+- aid: parseur:parseur-async-api
+  name: Parseur async API
+  description: The async API from Parseur — 7 operation(s) for async.
+  humanURL: https://developer.parseur.com/
+  baseURL: https://api.parseur.com
+  tags:
+  - async
+  properties:
+  - type: OpenAPI
+    url: openapi/parseur-async-api-openapi.yml
+  - type: Documentation
+    url: https://developer.parseur.com/
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
+  - type: SDKs
+    url: https://github.com/parseur/parseur-py
+  - type: Authentication
+    url: https://developer.parseur.com/
+  - type: RateLimits
+    url: https://developer.parseur.com/
+  - type: Webhooks
+    url: https://developer.parseur.com/
+- aid: parseur:parseur-bootstrap-api
+  name: Parseur Bootstrap API
+  description: The Bootstrap API from Parseur — 1 operation(s) for bootstrap.
+  humanURL: https://developer.parseur.com/
+  baseURL: https://api.parseur.com
+  tags:
+  - Bootstrap
+  properties:
+  - type: OpenAPI
+    url: openapi/parseur-bootstrap-api-openapi.yml
+  - type: Documentation
+    url: https://developer.parseur.com/
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
+  - type: SDKs
+    url: https://github.com/parseur/parseur-py
+  - type: Authentication
+    url: https://developer.parseur.com/
+  - type: RateLimits
+    url: https://developer.parseur.com/
+  - type: Webhooks
+    url: https://developer.parseur.com/
+- aid: parseur:parseur-document-api
+  name: Parseur Document API
+  description: The Document API from Parseur — 3 operation(s) for document.
+  humanURL: https://developer.parseur.com/
+  baseURL: https://api.parseur.com
+  tags:
+  - Document
+  properties:
+  - type: OpenAPI
+    url: openapi/parseur-document-api-openapi.yml
+  - type: Documentation
+    url: https://developer.parseur.com/
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
+  - type: SDKs
+    url: https://github.com/parseur/parseur-py
+  - type: Authentication
+    url: https://developer.parseur.com/
+  - type: RateLimits
+    url: https://developer.parseur.com/
+  - type: Webhooks
+    url: https://developer.parseur.com/
+- aid: parseur:parseur-parser-api
+  name: Parseur Parser API
+  description: The Parser API from Parseur — 8 operation(s) for parser.
+  humanURL: https://developer.parseur.com/
+  baseURL: https://api.parseur.com
+  tags:
+  - Parser
+  properties:
+  - type: OpenAPI
+    url: openapi/parseur-parser-api-openapi.yml
+  - type: Documentation
+    url: https://developer.parseur.com/
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
+  - type: SDKs
+    url: https://github.com/parseur/parseur-py
+  - type: Authentication
+    url: https://developer.parseur.com/
+  - type: RateLimits
+    url: https://developer.parseur.com/
+  - type: Webhooks
+    url: https://developer.parseur.com/
+- aid: parseur:parseur-template-api
+  name: Parseur Template API
+  description: The Template API from Parseur — 1 operation(s) for template.
+  humanURL: https://developer.parseur.com/
+  baseURL: https://api.parseur.com
+  tags:
+  - Template
+  properties:
+  - type: OpenAPI
+    url: openapi/parseur-template-api-openapi.yml
+  - type: Documentation
+    url: https://developer.parseur.com/
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
+  - type: SDKs
+    url: https://github.com/parseur/parseur-py
+  - type: Authentication
+    url: https://developer.parseur.com/
+  - type: RateLimits
+    url: https://developer.parseur.com/
+  - type: Webhooks
+    url: https://developer.parseur.com/
+- aid: parseur:parseur-webhook-api
+  name: Parseur Webhook API
+  description: The Webhook API from Parseur — 2 operation(s) for webhook.
+  humanURL: https://developer.parseur.com/
+  baseURL: https://api.parseur.com
+  tags:
+  - Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/parseur-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://developer.parseur.com/
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api
+  - type: Documentation
+    url: https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api
+  - type: SDKs
+    url: https://github.com/parseur/parseur-py
+  - type: Authentication
+    url: https://developer.parseur.com/
+  - type: RateLimits
+    url: https://developer.parseur.com/
+  - type: Webhooks
+    url: https://developer.parseur.com/
 common:
   - type: AgenticAccess
     url: agentic-access/parseur-agentic-access.yml
