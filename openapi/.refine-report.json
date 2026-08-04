@@ -1,0 +1,24 @@
+{
+  "provider": "parseur",
+  "sources": [
+    "parseur-async-api-openapi.yml",
+    "parseur-bootstrap-api-openapi.yml",
+    "parseur-document-api-openapi.yml",
+    "parseur-parser-api-openapi.yml",
+    "parseur-template-api-openapi.yml",
+    "parseur-webhook-api-openapi.yml"
+  ],
+  "outputs": [
+    "parseur-async-api-openapi.yml",
+    "parseur-bootstrap-api-openapi.yml",
+    "parseur-document-api-openapi.yml",
+    "parseur-parser-api-openapi.yml",
+    "parseur-template-api-openapi.yml",
+    "parseur-webhook-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
