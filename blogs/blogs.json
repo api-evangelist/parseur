@@ -5,7 +5,7 @@
       "source": "https://parseur.com/feed.xml",
       "feed_url": "https://parseur.com/feed.xml",
       "title": "",
-      "saved": 8,
+      "saved": 0,
       "method": "feed"
     },
     {
@@ -16,6 +16,6 @@
       "method": "discovered"
     }
   ],
-  "post_count": 117,
-  "fetched": "2026-08-01T15:49:00Z"
+  "post_count": 119,
+  "fetched": "2026-08-06T14:08:46Z"
 }
