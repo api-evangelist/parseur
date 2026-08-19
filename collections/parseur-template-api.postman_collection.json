@@ -1,0 +1,475 @@
+{
+  "item": [
+    {
+      "id": "cbb158c2-a1c4-4a61-9c06-302e9eb0d27e",
+      "name": "Template",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4184e79f-1ef9-4a84-a243-cf62ca9a4e4c",
+          "name": "Get a template",
+          "request": {
+            "name": "Get a template",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "template",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9991bf6f-e3ed-4ae8-a7a4-ec1eea29b7d7",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "template",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 8035,\n  \"parser\": 4974,\n  \"engine\": \"string\",\n  \"action\": \"string\",\n  \"status\": \"string\",\n  \"document_count\": 4080,\n  \"last_activity\": \"string\",\n  \"template_object_set\": [\n    {\n      \"parser_field\": {\n        \"id\": \"string\",\n        \"format\": \"string\",\n        \"is_optional\": null,\n        \"name\": \"string\",\n        \"query\": \"string\",\n        \"type\": \"string\",\n        \"static_value\": null\n      },\n      \"upper_left_relative_field\": null,\n      \"lower_right_relative_field\": null,\n      \"format\": null,\n      \"id\": \"string\",\n      \"is_required\": true,\n      \"name\": \"string\",\n      \"relative_box\": {\n        \"left_x\": 3217.121453752714,\n        \"upper_y\": 2367.837514828466,\n        \"right_x\": 1648.6958872860257,\n        \"lower_y\": 6653.716676169128,\n        \"start_page_index\": 469,\n        \"end_page_index\": 8648\n      },\n      \"type\": \"string\",\n      \"template_object_set\": [\n        \"string\",\n        \"string\"\n      ]\n    },\n    {\n      \"parser_field\": {\n        \"id\": \"string\",\n        \"format\": \"string\",\n        \"is_optional\": null,\n        \"name\": \"string\",\n        \"query\": \"string\",\n        \"type\": \"string\",\n        \"static_value\": null\n      },\n      \"upper_left_relative_field\": null,\n      \"lower_right_relative_field\": null,\n      \"format\": null,\n      \"id\": \"string\",\n      \"is_required\": true,\n      \"name\": \"string\",\n      \"relative_box\": {\n        \"left_x\": 5647.3700253778225,\n        \"upper_y\": 3085.5199407078617,\n        \"right_x\": 8120.595162476993,\n        \"lower_y\": 5898.90120525343,\n        \"start_page_index\": 8029,\n        \"end_page_index\": 8379\n      },\n      \"type\": \"string\",\n      \"template_object_set\": [\n        \"string\",\n        \"string\"\n      ]\n    }\n  ],\n  \"template_static_object_set\": [\n    \"string\",\n    \"string\"\n  ],\n  \"unused_parser_object_set\": [\n    {\n      \"id\": \"string\",\n      \"format\": \"string\",\n      \"is_optional\": false,\n      \"name\": \"string\",\n      \"query\": \"string\",\n      \"type\": \"string\",\n      \"static_value\": null,\n      \"parser_object_set\": [\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"format\": \"string\",\n          \"position\": null,\n          \"name\": \"string\",\n          \"query\": \"string\",\n          \"static_value\": null,\n          \"is_optional\": null,\n          \"csv_download\": \"string\",\n          \"json_download\": \"string\",\n          \"xls_download\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"format\": \"string\",\n          \"position\": null,\n          \"name\": \"string\",\n          \"query\": \"string\",\n          \"static_value\": null,\n          \"is_optional\": null,\n          \"csv_download\": \"string\",\n          \"json_download\": \"string\",\n          \"xls_download\": \"string\"\n        }\n      ]\n    },\n    {\n      \"id\": \"string\",\n      \"format\": \"string\",\n      \"is_optional\": true,\n      \"name\": \"string\",\n      \"query\": \"string\",\n      \"type\": \"string\",\n      \"static_value\": null,\n      \"parser_object_set\": [\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"format\": \"string\",\n          \"position\": null,\n          \"name\": \"string\",\n          \"query\": \"string\",\n          \"static_value\": null,\n          \"is_optional\": null,\n          \"csv_download\": \"string\",\n          \"json_download\": \"string\",\n          \"xls_download\": \"string\"\n        },\n        {\n          \"id\": \"string\",\n          \"type\": \"string\",\n          \"format\": \"string\",\n          \"position\": null,\n          \"name\": \"string\",\n          \"query\": \"string\",\n          \"static_value\": null,\n          \"is_optional\": null,\n          \"csv_download\": \"string\",\n          \"json_download\": \"string\",\n          \"xls_download\": \"string\"\n        }\n      ]\n    }\n  ],\n  \"name\": \"string\",\n  \"margin\": {\n    \"default\": {\n      \"lower\": 4337,\n      \"upper\": 366\n    }\n  },\n  \"decimal_separator\": null,\n  \"input_date_format\": null,\n  \"sample_set\": [\n    {\n      \"id\": 6877,\n      \"name\": \"string\",\n      \"comment\": null,\n      \"is_ocr_ready\": true,\n      \"ocr_ready_url\": \"string\",\n      \"ocr_page_set\": [\n        {\n          \"image\": {\n            \"url\": \"string\",\n            \"width\": 195,\n            \"height\": 1779,\n            \"content_type\": \"string\"\n          },\n          \"position\": 2441,\n          \"included_in_range\": true\n        },\n        {\n          \"image\": {\n            \"url\": \"string\",\n            \"width\": 9553,\n            \"height\": 1127,\n            \"content_type\": \"string\"\n          },\n          \"position\": 5536,\n          \"included_in_range\": true\n        }\n      ]\n    },\n    {\n      \"id\": 6062,\n      \"name\": \"string\",\n      \"comment\": null,\n      \"is_ocr_ready\": true,\n      \"ocr_ready_url\": \"string\",\n      \"ocr_page_set\": [\n        {\n          \"image\": {\n            \"url\": \"string\",\n            \"width\": 5308,\n            \"height\": 3272,\n            \"content_type\": \"string\"\n          },\n          \"position\": 9114,\n          \"included_in_range\": false\n        },\n        {\n          \"image\": {\n            \"url\": \"string\",\n            \"width\": 9001,\n            \"height\": 1257,\n            \"content_type\": \"string\"\n          },\n          \"position\": 5954,\n          \"included_in_range\": false\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "635337ee-cc07-4a84-9327-17d88ba358fc",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "template",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"non_field_errors\": \"Not authenticated\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c8cdc22f-83d1-404c-8e64-e3a4ddcdb82e",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "template",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"non_field_errors\": \"No Template matches the given query.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "569cee33-f1ae-4b32-a332-7b5320e0b9f9",
+          "name": "Delete a template",
+          "request": {
+            "name": "Delete a template",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "template",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "485025de-8737-4788-9602-8d61523ee8f2",
+              "name": "Deleted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "template",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b4f21c87-e4a3-4c8c-a325-4dd021a0c6ee",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "template",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"non_field_errors\": \"Not authenticated\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e052710d-f5e2-4989-9662-53b81389cdae",
+              "name": "Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "template",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"non_field_errors\": \"No Template matches the given query.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.parseur.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "7891fbf9-23ac-47c7-a9b0-3c66739ea801",
+    "name": "Parseur async Template API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}
