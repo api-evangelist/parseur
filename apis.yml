@@ -33,6 +33,19 @@ position: Provider
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/parseur.png
 tags:
+  - Artificial Intelligence
+  - Document Parsing
+  - Document Processing
+  - Document Extraction
+  - Email Parsing
+  - OCR
+  - Data Extraction
+  - Vision AI
+  - Automation
+  - Webhook
+  - Mailboxes
+  - Software-as-a-Service
+tags_raw:
   - AI
   - Artificial Intelligence
   - Document Parsing
@@ -57,6 +70,8 @@ apis:
   humanURL: https://developer.parseur.com/
   baseURL: https://api.parseur.com
   tags:
+  - Async
+  tags_raw:
   - async
   properties:
   - type: OpenAPI
