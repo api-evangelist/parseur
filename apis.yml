@@ -82,7 +82,7 @@ apis:
   humanURL: https://developer.parseur.com/
   baseURL: https://api.parseur.com
   tags:
-  - async
+  - Async
   tags_raw:
   - async
   properties:
