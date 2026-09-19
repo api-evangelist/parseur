@@ -133,6 +133,8 @@ apis:
   humanURL: https://developer.parseur.com/
   baseURL: https://api.parseur.com
   tags:
+  - Documents
+  tags_raw:
   - Document
   properties:
   - type: OpenAPI
@@ -181,6 +183,8 @@ apis:
   humanURL: https://developer.parseur.com/
   baseURL: https://api.parseur.com
   tags:
+  - Templates
+  tags_raw:
   - Template
   properties:
   - type: OpenAPI
