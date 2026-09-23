@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Parseur async API
+  title: Parseur Async API
   description: ''
   version: 1.0.0
 servers:
@@ -9,7 +9,7 @@ servers:
 security:
 - TokenAuth: []
 tags:
-- name: async
+- name: Async
 paths:
   /parser/{id}/upload:
     post:
@@ -17,7 +17,7 @@ paths:
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters:
       - name: id
         in: path
@@ -99,17 +99,19 @@ paths:
                     non_field_errors: File upload should be done using multipart/form-data
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
       security:
       - TokenAuth: []
+      operationId: postParserByIdUpload
+      x-operation-id-source: derived
   /email:
     post:
       summary: Upload an email/text document
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters: []
       requestBody:
         content:
@@ -174,13 +176,15 @@ paths:
                 message: OK
           headers: {}
       security: []
+      operationId: postEmail
+      x-operation-id-source: derived
   /document/{id}/process:
     post:
       summary: Reprocess a document
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters:
       - name: id
         in: path
@@ -214,20 +218,22 @@ paths:
                   - Document is being processed. Please wait.
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: postDocumentByIdProcess
+      x-operation-id-source: derived
   /document/{id}/copy/{target_mailbox_id}:
     post:
       summary: Copy a document
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters:
       - name: id
         in: path
@@ -268,20 +274,22 @@ paths:
                   - Document is being copied. New copy will show up in a few seconds.
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: postDocumentByIdCopyByTargetMailboxId
+      x-operation-id-source: derived
   /parser/{id}:
     delete:
       summary: Delete a mailbox
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters:
       - name: id
         in: path
@@ -315,7 +323,7 @@ paths:
                   - Mailbox is being deleted. This can take a while.
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
           description: Not found
@@ -333,13 +341,15 @@ paths:
           headers: {}
       security:
       - TokenAuth: []
+      operationId: deleteParserById
+      x-operation-id-source: derived
   /parser/{id}/copy:
     post:
       summary: Copy a mailbox
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters:
       - name: id
         in: path
@@ -373,7 +383,7 @@ paths:
                   - Mailbox is being copied. New copy will show up in a few minutes.
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
           description: Mailbox not found
@@ -391,13 +401,15 @@ paths:
           headers: {}
       security:
       - TokenAuth: []
+      operationId: postParserByIdCopy
+      x-operation-id-source: derived
   /template/{id}/copy/{target_mailbox_id}:
     post:
       summary: Copy a template
       deprecated: false
       description: ''
       tags:
-      - async
+      - Async
       parameters:
       - name: id
         in: path
@@ -438,7 +450,7 @@ paths:
                   - Template is being copied. New copy will show up in a few seconds.
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
           description: Not found
@@ -463,25 +475,11 @@ paths:
           headers: {}
       security:
       - TokenAuth: []
+      operationId: postTemplateByIdCopyByTargetMailboxId
+      x-operation-id-source: derived
 components:
   responses:
-    Not Found:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Document not found:
-              summary: Document not found
-              value:
-                non_field_errors: Not found
-    Authentication Error:
+    Authentication_Error:
       description: ''
       content:
         application/json:
@@ -501,6 +499,22 @@ components:
               summary: Authentication failed
               value:
                 non_field_errors: Authentication failed
+    Not_Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
   securitySchemes:
     TokenAuth:
       type: apiKey

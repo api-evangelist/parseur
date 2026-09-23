@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Parseur async Webhook API
+  title: Parseur Webhook API
   description: ''
   version: 1.0.0
 servers:
@@ -51,13 +51,15 @@ paths:
           description: Invalid request
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: postWebhook
+      x-operation-id-source: derived
   /webhook/{id}:
     delete:
       summary: Delete a webhook
@@ -83,7 +85,7 @@ paths:
                 properties: {}
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
           description: ''
@@ -101,45 +103,18 @@ paths:
           headers: {}
       security:
       - TokenAuth: []
+      operationId: deleteWebhookById
+      x-operation-id-source: derived
 components:
-  responses:
-    Not Found:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Document not found:
-              summary: Document not found
-              value:
-                non_field_errors: Not found
-    Authentication Error:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Not Authenticated:
-              summary: Not Authenticated
-              value:
-                non_field_errors: Not authenticated
-            Authentication failed:
-              summary: Authentication failed
-              value:
-                non_field_errors: Authentication failed
   schemas:
+    WebhookEventEnum:
+      type: string
+      enum:
+      - document.processed
+      - document.processed.flattened
+      - document.template_needed
+      - document.export_failed
+      - table.processed
     Webhook:
       type: object
       properties:
@@ -178,14 +153,43 @@ components:
       - MAKE
       - FLOW
       - N8N
-    WebhookEventEnum:
-      type: string
-      enum:
-      - document.processed
-      - document.processed.flattened
-      - document.template_needed
-      - document.export_failed
-      - table.processed
+  responses:
+    Authentication_Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+    Not_Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
   securitySchemes:
     TokenAuth:
       type: apiKey

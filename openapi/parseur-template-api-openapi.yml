@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Parseur async Template API
+  title: Parseur Template API
   description: ''
   version: 1.0.0
 servers:
@@ -289,7 +289,7 @@ paths:
                 $ref: '#/components/schemas/Template'
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
           description: Not found
@@ -307,6 +307,8 @@ paths:
           headers: {}
       security:
       - TokenAuth: []
+      operationId: getTemplateById
+      x-operation-id-source: derived
     delete:
       summary: Delete a template
       deprecated: false
@@ -326,7 +328,7 @@ paths:
           description: Deleted
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
           description: Not found
@@ -344,35 +346,80 @@ paths:
           headers: {}
       security:
       - TokenAuth: []
+      operationId: deleteTemplateById
+      x-operation-id-source: derived
 components:
   schemas:
+    DecimalSeparatorEnum:
+      type: string
+      enum:
+      - .
+      - ','
+      default: .
+    DocumentSample:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        comment:
+          type:
+          - string
+          - 'null'
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        ocr_ready_url:
+          type: string
+          format: uri
+          readOnly: true
+        ocr_page_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcrPage'
+          readOnly: true
+    OcrPage:
+      type: object
+      properties:
+        image:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              readOnly: true
+            width:
+              type: integer
+              readOnly: true
+            height:
+              type: integer
+              readOnly: true
+            content_type:
+              type: string
+              const: image/jpeg
+              readOnly: true
+          required:
+          - url
+          - width
+          - height
+          - content_type
+          readOnly: true
+        position:
+          type: integer
+          readOnly: true
+        included_in_range:
+          type: boolean
+          readOnly: true
+      readOnly: true
     TemplateEngineEnum:
       type: string
       enum:
       - TXT
       - OCR
       default: TXT
-    TemplateStatusEnum:
-      type: string
-      enum:
-      - DRAFT
-      - PROD
-      default: PROD
-    TemplateFieldFormatEnum:
-      type: string
-      enum:
-      - HTML
-      - TEXT
-      - RAW
-      - HTML_LIST
-      - TEXT_LIST
-      - HTML_VTABLE
-      - TEXT_VTABLE
-      - HTML_HTABLE
-      - TEXT_HTABLE
-      - OCR_TEXT
-      - OCR_VTABLE
-      - OCR_HTABLE
     TemplateField:
       type: object
       properties:
@@ -438,78 +485,27 @@ components:
           description: Only for TABLE fields
       required:
       - id
-    OcrPage:
-      type: object
-      properties:
-        image:
-          type: object
-          properties:
-            url:
-              type: string
-              format: uri
-              readOnly: true
-            width:
-              type: integer
-              readOnly: true
-            height:
-              type: integer
-              readOnly: true
-            content_type:
-              type: string
-              const: image/jpeg
-              readOnly: true
-          required:
-          - url
-          - width
-          - height
-          - content_type
-          readOnly: true
-        position:
-          type: integer
-          readOnly: true
-        included_in_range:
-          type: boolean
-          readOnly: true
-      readOnly: true
-    TemplateActionEnum:
+    TemplateStatusEnum:
       type: string
       enum:
-      - PROCESS
-      - SKIP
-      - DELETE
-      - PROCESS_THEN_DELETE
-      default: PROCESS
-    DocumentSample:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        comment:
-          type:
-          - string
-          - 'null'
-        is_ocr_ready:
-          type: boolean
-          readOnly: true
-        ocr_ready_url:
-          type: string
-          format: uri
-          readOnly: true
-        ocr_page_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/OcrPage'
-          readOnly: true
-    DecimalSeparatorEnum:
+      - DRAFT
+      - PROD
+      default: PROD
+    TemplateFieldFormatEnum:
       type: string
       enum:
-      - .
-      - ','
-      default: .
+      - HTML
+      - TEXT
+      - RAW
+      - HTML_LIST
+      - TEXT_LIST
+      - HTML_VTABLE
+      - TEXT_VTABLE
+      - HTML_HTABLE
+      - TEXT_HTABLE
+      - OCR_TEXT
+      - OCR_VTABLE
+      - OCR_HTABLE
     InputDateFormatEnum:
       type:
       - string
@@ -531,6 +527,64 @@ components:
       - TABLE
       - LINK
       default: TEXT
+    ParserField:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        format:
+          $ref: '#/components/schemas/ParserFieldFormatEnum'
+        choice_set:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of possible choice values. Only used when format is ONELINE.
+        is_required:
+          type:
+          - boolean
+          - 'null'
+          default: false
+        query:
+          type:
+          - string
+          - 'null'
+          description: Instructions for AI engine
+        json_download:
+          type: string
+          format: uri
+          readOnly: true
+        csv_download:
+          type: string
+          format: uri
+          readOnly: true
+        xls_download:
+          type: string
+          format: uri
+          readOnly: true
+        type:
+          type: string
+          const: FIELD
+          readOnly: true
+        parser_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParserField'
+          description: Only for TABLE fields
+        used_by_ai:
+          type:
+          - boolean
+          - 'null'
+          description: If false, that field will not be extracted by AI engines
+          default: true
+      required:
+      - id
+      - name
+      - format
     Template:
       type: object
       properties:
@@ -722,66 +776,16 @@ components:
       - template_object_set
       - template_static_object_set
       - unused_parser_object_set
-    ParserField:
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-        format:
-          $ref: '#/components/schemas/ParserFieldFormatEnum'
-        choice_set:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of possible choice values. Only used when format is ONELINE.
-        is_required:
-          type:
-          - boolean
-          - 'null'
-          default: false
-        query:
-          type:
-          - string
-          - 'null'
-          description: Instructions for AI engine
-        json_download:
-          type: string
-          format: uri
-          readOnly: true
-        csv_download:
-          type: string
-          format: uri
-          readOnly: true
-        xls_download:
-          type: string
-          format: uri
-          readOnly: true
-        type:
-          type: string
-          const: FIELD
-          readOnly: true
-        parser_object_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/ParserField'
-          description: Only for TABLE fields
-        used_by_ai:
-          type:
-          - boolean
-          - 'null'
-          description: If false, that field will not be extracted by AI engines
-          default: true
-      required:
-      - id
-      - name
-      - format
+    TemplateActionEnum:
+      type: string
+      enum:
+      - PROCESS
+      - SKIP
+      - DELETE
+      - PROCESS_THEN_DELETE
+      default: PROCESS
   responses:
-    Authentication Error:
+    Authentication_Error:
       description: ''
       content:
         application/json:

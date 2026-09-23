@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Parseur async Document API
+  title: Parseur Document API
   description: ''
   version: 1.0.0
 servers:
@@ -72,13 +72,15 @@ paths:
                   included_in_range: true
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: getDocumentById
+      x-operation-id-source: derived
     delete:
       summary: Delete a document
       deprecated: false
@@ -98,13 +100,15 @@ paths:
           description: Deleted
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: deleteDocumentById
+      x-operation-id-source: derived
   /document/{id}/log_set:
     get:
       summary: Get document logs
@@ -245,13 +249,15 @@ paths:
                   message: Received
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: getDocumentByIdLogSet
+      x-operation-id-source: derived
   /document/{id}/skip:
     post:
       summary: Skip a document
@@ -313,73 +319,24 @@ paths:
                   included_in_range: true
           headers: {}
         '403':
-          $ref: '#/components/responses/Authentication Error'
+          $ref: '#/components/responses/Authentication_Error'
           description: ''
         '404':
-          $ref: '#/components/responses/Not Found'
+          $ref: '#/components/responses/Not_Found'
           description: ''
       security:
       - TokenAuth: []
+      operationId: postDocumentByIdSkip
+      x-operation-id-source: derived
 components:
-  responses:
-    Not Found:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Document not found:
-              summary: Document not found
-              value:
-                non_field_errors: Not found
-    Authentication Error:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Not Authenticated:
-              summary: Not Authenticated
-              value:
-                non_field_errors: Not authenticated
-            Authentication failed:
-              summary: Authentication failed
-              value:
-                non_field_errors: Authentication failed
   schemas:
-    LogStatusEnum:
+    LogSourceEnum:
       type: string
       enum:
-      - SUCCESS
-      - ERROR
-      - INFO
-      - WARNING
+      - DOCUMENT
+      - OCRDOC
+      - WEBHOOK
       readOnly: true
-    DocumentStatusSourceEnum:
-      type:
-      - string
-      - 'null'
-      readOnly: true
-      enum:
-      - AI
-      - AUTO
-      - CSV
-      - METADATA
-      - MANUAL
-      - TEMPLATE
-      - TRANSFORM
     OcrPage:
       type: object
       properties:
@@ -412,47 +369,6 @@ components:
         included_in_range:
           type: boolean
           readOnly: true
-      readOnly: true
-    DocumentStatusEnum:
-      type: string
-      enum:
-      - INCOMING
-      - ANALYZING
-      - PROGRESS
-      - PARSEDOK
-      - PARSEDKO
-      - QUOTAEXC
-      - SKIPPED
-      - SPLIT
-      - EXPORTKO
-      - TRANSKO
-      - INVALID
-      readOnly: true
-    TemplateSample:
-      type:
-      - object
-      - 'null'
-      properties:
-        template_id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        sample_count:
-          type: integer
-          readOnly: true
-      required:
-      - template_id
-      - name
-      - sample_count
-      readOnly: true
-    LogSourceEnum:
-      type: string
-      enum:
-      - DOCUMENT
-      - OCRDOC
-      - WEBHOOK
       readOnly: true
     Document:
       type: object
@@ -616,6 +532,48 @@ components:
       - conventional_credits_used
       - ai_credits_used
       - sample_set
+    TemplateSample:
+      type:
+      - object
+      - 'null'
+      properties:
+        template_id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        sample_count:
+          type: integer
+          readOnly: true
+      required:
+      - template_id
+      - name
+      - sample_count
+      readOnly: true
+    LogStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - INFO
+      - WARNING
+      readOnly: true
+    DocumentStatusEnum:
+      type: string
+      enum:
+      - INCOMING
+      - ANALYZING
+      - PROGRESS
+      - PARSEDOK
+      - PARSEDKO
+      - QUOTAEXC
+      - SKIPPED
+      - SPLIT
+      - EXPORTKO
+      - TRANSKO
+      - INVALID
+      readOnly: true
     Log:
       type: object
       properties:
@@ -678,6 +636,56 @@ components:
       - payload
       - message
       - parser_name
+    DocumentStatusSourceEnum:
+      type:
+      - string
+      - 'null'
+      readOnly: true
+      enum:
+      - AI
+      - AUTO
+      - CSV
+      - METADATA
+      - MANUAL
+      - TEMPLATE
+      - TRANSFORM
+  responses:
+    Authentication_Error:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Not Authenticated:
+              summary: Not Authenticated
+              value:
+                non_field_errors: Not authenticated
+            Authentication failed:
+              summary: Authentication failed
+              value:
+                non_field_errors: Authentication failed
+    Not_Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
   securitySchemes:
     TokenAuth:
       type: apiKey

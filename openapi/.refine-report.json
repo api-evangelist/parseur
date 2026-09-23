@@ -1,24 +1,57 @@
 {
   "provider": "parseur",
   "sources": [
-    "parseur-async-api-openapi.yml",
-    "parseur-bootstrap-api-openapi.yml",
-    "parseur-document-api-openapi.yml",
-    "parseur-parser-api-openapi.yml",
-    "parseur-template-api-openapi.yml",
-    "parseur-webhook-api-openapi.yml"
+    "_original/parseur-openapi.yml"
   ],
   "outputs": [
-    "parseur-async-api-openapi.yml",
     "parseur-bootstrap-api-openapi.yml",
     "parseur-document-api-openapi.yml",
     "parseur-parser-api-openapi.yml",
     "parseur-template-api-openapi.yml",
-    "parseur-webhook-api-openapi.yml"
+    "parseur-webhook-api-openapi.yml",
+    "parseur-async-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "parseur-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0; renamed 2 component key(s) illegal in 3.x (e.g. Authentication Error)",
+    "parseur-openapi.yml: tagged paths GET /parser/{id}/document_set -> Parser",
+    "parseur-openapi.yml: tagged paths GET /document/{id} -> Document",
+    "parseur-openapi.yml: tagged paths DELETE /document/{id} -> Document",
+    "parseur-openapi.yml: tagged paths GET /document/{id}/log_set -> Document",
+    "parseur-openapi.yml: tagged paths POST /document/{id}/skip -> Document",
+    "parseur-openapi.yml: tagged paths GET /parser -> Parser",
+    "parseur-openapi.yml: tagged paths POST /parser -> Parser",
+    "parseur-openapi.yml: tagged paths GET /parser/{id} -> Parser",
+    "parseur-openapi.yml: tagged paths PUT /parser/{id} -> Parser",
+    "parseur-openapi.yml: tagged paths GET /parser/{id}/schema -> Parser",
+    "parseur-openapi.yml: tagged paths GET /parser/{id}/export_config -> Parser",
+    "parseur-openapi.yml: tagged paths POST /parser/{id}/export_config -> Parser",
+    "parseur-openapi.yml: tagged paths PATCH /parser/{mailbox_id}/export_config/{id} -> Parser",
+    "parseur-openapi.yml: tagged paths DELETE /parser/{mailbox_id}/export_config/{id} -> Parser",
+    "parseur-openapi.yml: tagged paths GET /parser/{id}/template_set -> Parser",
+    "parseur-openapi.yml: tagged paths GET /template/{id} -> Template",
+    "parseur-openapi.yml: tagged paths DELETE /template/{id} -> Template",
+    "parseur-openapi.yml: tagged paths POST /webhook -> Webhook",
+    "parseur-openapi.yml: tagged paths POST /parser/{mailbox_id}/webhook_set/{id} -> Parser",
+    "parseur-openapi.yml: tagged paths DELETE /parser/{mailbox_id}/webhook_set/{id} -> Parser",
+    "parseur-openapi.yml: tagged paths DELETE /webhook/{id} -> Webhook",
+    "parseur-openapi.yml: tagged paths GET /bootstrap -> Bootstrap",
+    "parseur-openapi.yml: declared missing tag: Bootstrap",
+    "parseur-openapi.yml: declared missing tag: Document",
+    "parseur-openapi.yml: declared missing tag: Parser",
+    "parseur-openapi.yml: declared missing tag: Template",
+    "parseur-openapi.yml: declared missing tag: Webhook",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "parseur-async-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "parseur-bootstrap-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "parseur-document-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "parseur-parser-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "parseur-template-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "parseur-webhook-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
