@@ -356,177 +356,6 @@ components:
       - .
       - ','
       default: .
-    DocumentSample:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        comment:
-          type:
-          - string
-          - 'null'
-        is_ocr_ready:
-          type: boolean
-          readOnly: true
-        ocr_ready_url:
-          type: string
-          format: uri
-          readOnly: true
-        ocr_page_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/OcrPage'
-          readOnly: true
-    OcrPage:
-      type: object
-      properties:
-        image:
-          type: object
-          properties:
-            url:
-              type: string
-              format: uri
-              readOnly: true
-            width:
-              type: integer
-              readOnly: true
-            height:
-              type: integer
-              readOnly: true
-            content_type:
-              type: string
-              const: image/jpeg
-              readOnly: true
-          required:
-          - url
-          - width
-          - height
-          - content_type
-          readOnly: true
-        position:
-          type: integer
-          readOnly: true
-        included_in_range:
-          type: boolean
-          readOnly: true
-      readOnly: true
-    TemplateEngineEnum:
-      type: string
-      enum:
-      - TXT
-      - OCR
-      default: TXT
-    TemplateField:
-      type: object
-      properties:
-        parser_field:
-          $ref: '#/components/schemas/ParserField'
-          description: Only for template fields of type FIELD
-        upper_left_relative_field:
-          type:
-          - string
-          - 'null'
-          description: Only for OCR templates
-        lower_right_relative_field:
-          type:
-          - string
-          - 'null'
-          description: Only for OCR templates
-        format:
-          anyOf:
-          - $ref: '#/components/schemas/TemplateFieldFormatEnum'
-          - type: 'null'
-        id:
-          type: string
-          readOnly: true
-        is_required:
-          type: boolean
-          description: Only for OCR templates
-        name:
-          type: string
-        relative_box:
-          type: object
-          properties:
-            left_x:
-              type: number
-            upper_y:
-              type: number
-            right_x:
-              type: number
-            lower_y:
-              type: number
-            start_page_index:
-              type: integer
-            end_page_index:
-              type: integer
-          required:
-          - left_x
-          - upper_y
-          - right_x
-          - lower_y
-          - start_page_index
-          - end_page_index
-          description: Only for OCR templates
-        type:
-          type: string
-          enum:
-          - FIELD
-          - LABEL
-          - DELIMITER
-          - IGNORED
-        template_object_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateField'
-          description: Only for TABLE fields
-      required:
-      - id
-    TemplateStatusEnum:
-      type: string
-      enum:
-      - DRAFT
-      - PROD
-      default: PROD
-    TemplateFieldFormatEnum:
-      type: string
-      enum:
-      - HTML
-      - TEXT
-      - RAW
-      - HTML_LIST
-      - TEXT_LIST
-      - HTML_VTABLE
-      - TEXT_VTABLE
-      - HTML_HTABLE
-      - TEXT_HTABLE
-      - OCR_TEXT
-      - OCR_VTABLE
-      - OCR_HTABLE
-    InputDateFormatEnum:
-      type:
-      - string
-      - 'null'
-      enum:
-      - MONTH_FIRST
-      - DAY_FIRST
-    ParserFieldFormatEnum:
-      type: string
-      enum:
-      - TEXT
-      - ONELINE
-      - DATE
-      - TIME
-      - DATETIME
-      - NUMBER
-      - NAME
-      - ADDRESS
-      - TABLE
-      - LINK
-      default: TEXT
     ParserField:
       type: object
       properties:
@@ -585,6 +414,105 @@ components:
       - id
       - name
       - format
+    DocumentSample:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        comment:
+          type:
+          - string
+          - 'null'
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        ocr_ready_url:
+          type: string
+          format: uri
+          readOnly: true
+        ocr_page_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcrPage'
+          readOnly: true
+    TemplateStatusEnum:
+      type: string
+      enum:
+      - DRAFT
+      - PROD
+      default: PROD
+    ParserFieldFormatEnum:
+      type: string
+      enum:
+      - TEXT
+      - ONELINE
+      - DATE
+      - TIME
+      - DATETIME
+      - NUMBER
+      - NAME
+      - ADDRESS
+      - TABLE
+      - LINK
+      default: TEXT
+    TemplateEngineEnum:
+      type: string
+      enum:
+      - TXT
+      - OCR
+      default: TXT
+    OcrPage:
+      type: object
+      properties:
+        image:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              readOnly: true
+            width:
+              type: integer
+              readOnly: true
+            height:
+              type: integer
+              readOnly: true
+            content_type:
+              type: string
+              const: image/jpeg
+              readOnly: true
+          required:
+          - url
+          - width
+          - height
+          - content_type
+          readOnly: true
+        position:
+          type: integer
+          readOnly: true
+        included_in_range:
+          type: boolean
+          readOnly: true
+      readOnly: true
+    TemplateActionEnum:
+      type: string
+      enum:
+      - PROCESS
+      - SKIP
+      - DELETE
+      - PROCESS_THEN_DELETE
+      default: PROCESS
+    InputDateFormatEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - MONTH_FIRST
+      - DAY_FIRST
     Template:
       type: object
       properties:
@@ -776,14 +704,86 @@ components:
       - template_object_set
       - template_static_object_set
       - unused_parser_object_set
-    TemplateActionEnum:
+    TemplateField:
+      type: object
+      properties:
+        parser_field:
+          $ref: '#/components/schemas/ParserField'
+          description: Only for template fields of type FIELD
+        upper_left_relative_field:
+          type:
+          - string
+          - 'null'
+          description: Only for OCR templates
+        lower_right_relative_field:
+          type:
+          - string
+          - 'null'
+          description: Only for OCR templates
+        format:
+          anyOf:
+          - $ref: '#/components/schemas/TemplateFieldFormatEnum'
+          - type: 'null'
+        id:
+          type: string
+          readOnly: true
+        is_required:
+          type: boolean
+          description: Only for OCR templates
+        name:
+          type: string
+        relative_box:
+          type: object
+          properties:
+            left_x:
+              type: number
+            upper_y:
+              type: number
+            right_x:
+              type: number
+            lower_y:
+              type: number
+            start_page_index:
+              type: integer
+            end_page_index:
+              type: integer
+          required:
+          - left_x
+          - upper_y
+          - right_x
+          - lower_y
+          - start_page_index
+          - end_page_index
+          description: Only for OCR templates
+        type:
+          type: string
+          enum:
+          - FIELD
+          - LABEL
+          - DELIMITER
+          - IGNORED
+        template_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateField'
+          description: Only for TABLE fields
+      required:
+      - id
+    TemplateFieldFormatEnum:
       type: string
       enum:
-      - PROCESS
-      - SKIP
-      - DELETE
-      - PROCESS_THEN_DELETE
-      default: PROCESS
+      - HTML
+      - TEXT
+      - RAW
+      - HTML_LIST
+      - TEXT_LIST
+      - HTML_VTABLE
+      - TEXT_VTABLE
+      - HTML_HTABLE
+      - TEXT_HTABLE
+      - OCR_TEXT
+      - OCR_VTABLE
+      - OCR_HTABLE
   responses:
     Authentication_Error:
       description: ''

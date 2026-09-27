@@ -107,14 +107,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    WebhookEventEnum:
-      type: string
-      enum:
-      - document.processed
-      - document.processed.flattened
-      - document.template_needed
-      - document.export_failed
-      - table.processed
     Webhook:
       type: object
       properties:
@@ -153,7 +145,31 @@ components:
       - MAKE
       - FLOW
       - N8N
+    WebhookEventEnum:
+      type: string
+      enum:
+      - document.processed
+      - document.processed.flattened
+      - document.template_needed
+      - document.export_failed
+      - table.processed
   responses:
+    Not_Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
     Authentication_Error:
       description: ''
       content:
@@ -174,22 +190,6 @@ components:
               summary: Authentication failed
               value:
                 non_field_errors: Authentication failed
-    Not_Found:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Document not found:
-              summary: Document not found
-              value:
-                non_field_errors: Not found
   securitySchemes:
     TokenAuth:
       type: apiKey

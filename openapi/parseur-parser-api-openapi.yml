@@ -1738,12 +1738,75 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    EmailOrDomain:
-      anyOf:
-      - type: string
-        format: email
-      - type: string
-        format: hostname
+    SplitKeyword:
+      type: object
+      properties:
+        keyword:
+          type: string
+        is_before:
+          type: boolean
+      required:
+      - keyword
+      - is_before
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        event:
+          $ref: '#/components/schemas/WebhookEventEnum'
+        target:
+          type: string
+          format: uri
+        name:
+          type: string
+        headers:
+          type:
+          - object
+          - 'null'
+          properties: {}
+        category:
+          $ref: '#/components/schemas/WebhookCategory'
+        parser_field_set:
+          type: array
+          items:
+            type: string
+          description: Only for table.processed events
+      required:
+      - id
+      - event
+      - target
+      - category
+    ParserIdentificationStatusEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - REQUESTED
+      - PROGRESS
+      - COMPLETED
+      - MANUAL
+      default: MANUAL
+    TemplateSample:
+      type:
+      - object
+      - 'null'
+      properties:
+        template_id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        sample_count:
+          type: integer
+          readOnly: true
+      required:
+      - template_id
+      - name
+      - sample_count
+      readOnly: true
     ParserMasterSlugEnum:
       type:
       - string
@@ -1768,32 +1831,114 @@ components:
       - automotive
       - payslip
       - event-ticketing
-    SplitKeyword:
+    TemplateDiet:
       type: object
       properties:
-        keyword:
+        id:
+          type: integer
+          readOnly: true
+        name:
           type: string
-        is_before:
-          type: boolean
+        parser:
+          type: integer
+        engine:
+          $ref: '#/components/schemas/TemplateEngineEnum'
+        action:
+          $ref: '#/components/schemas/TemplateActionEnum'
+        status:
+          $ref: '#/components/schemas/TemplateStatusEnum'
+        margin:
+          type: object
+          properties:
+            default:
+              type: object
+              properties:
+                lower:
+                  type: integer
+                upper:
+                  type: integer
+        document_count:
+          type: integer
+          readOnly: true
+        last_activity:
+          type: string
+          format: date-time
+          readOnly: true
+        decimal_separator:
+          anyOf:
+          - $ref: '#/components/schemas/DecimalSeparatorEnum'
+          - type: 'null'
+        input_date_format:
+          anyOf:
+          - $ref: '#/components/schemas/InputDateFormatEnum'
+          - type: 'null'
       required:
-      - keyword
-      - is_before
-    TemplateActionEnum:
-      type: string
-      enum:
-      - PROCESS
-      - SKIP
-      - DELETE
-      - PROCESS_THEN_DELETE
-      default: PROCESS
-    WebhookEventEnum:
-      type: string
-      enum:
-      - document.processed
-      - document.processed.flattened
-      - document.template_needed
-      - document.export_failed
-      - table.processed
+      - last_activity
+      - document_count
+      - status
+      - action
+      - engine
+      - parser
+      - id
+      - name
+    ParserField:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+        format:
+          $ref: '#/components/schemas/ParserFieldFormatEnum'
+        choice_set:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: List of possible choice values. Only used when format is ONELINE.
+        is_required:
+          type:
+          - boolean
+          - 'null'
+          default: false
+        query:
+          type:
+          - string
+          - 'null'
+          description: Instructions for AI engine
+        json_download:
+          type: string
+          format: uri
+          readOnly: true
+        csv_download:
+          type: string
+          format: uri
+          readOnly: true
+        xls_download:
+          type: string
+          format: uri
+          readOnly: true
+        type:
+          type: string
+          const: FIELD
+          readOnly: true
+        parser_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParserField'
+          description: Only for TABLE fields
+        used_by_ai:
+          type:
+          - boolean
+          - 'null'
+          description: If false, that field will not be extracted by AI engines
+          default: true
+      required:
+      - id
+      - name
+      - format
     Parser:
       type: object
       properties:
@@ -2263,6 +2408,229 @@ components:
       - parser_object_count
       - available_webhook_set
       - attachments_only
+    DocumentDiet:
+      type: object
+      properties:
+        attached_to:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        id:
+          type: integer
+          readOnly: true
+        match_master_template:
+          type: boolean
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        ocr_ready_url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          readOnly: true
+        original_document_url:
+          type: string
+          format: uri
+          readOnly: true
+        parser:
+          type: integer
+          readOnly: true
+        processed:
+          type: string
+          format: date-time
+          readOnly: true
+        received:
+          type: string
+          format: date-time
+          readOnly: true
+        sample_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateSample'
+          readOnly: true
+        status_source:
+          $ref: '#/components/schemas/DocumentStatusSourceEnum'
+        status:
+          $ref: '#/components/schemas/DocumentStatusEnum'
+        template:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        credits_used:
+          type: integer
+          readOnly: true
+        conventional_credits_used:
+          type: integer
+          readOnly: true
+        ai_credits_used:
+          type: integer
+          readOnly: true
+        is_ai_ready:
+          type: boolean
+          readOnly: true
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        is_processable:
+          type: boolean
+          readOnly: true
+        is_splittable:
+          type: boolean
+          readOnly: true
+        is_split:
+          type: boolean
+          readOnly: true
+        json_download_url:
+          type: string
+          format: uri
+          readOnly: true
+        csv_download_url:
+          type: string
+          format: uri
+          readOnly: true
+        xls_download_url:
+          type: string
+          format: uri
+          readOnly: true
+        result:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+          description: Only present when using with_result=true query parameter
+      required:
+      - attached_to
+      - id
+      - match_master_template
+      - name
+      - original_document_url
+      - parser
+      - processed
+      - received
+      - sample_set
+      - status_source
+      - status
+      - template
+      - credits_used
+      - conventional_credits_used
+      - ai_credits_used
+      - is_ai_ready
+      - is_ocr_ready
+      - is_processable
+      - is_splittable
+      - is_split
+      - json_download_url
+      - csv_download_url
+      - xls_download_url
+      - ocr_ready_url
+    TemplateStatusEnum:
+      type: string
+      enum:
+      - DRAFT
+      - PROD
+      default: PROD
+    ParserFieldFormatEnum:
+      type: string
+      enum:
+      - TEXT
+      - ONELINE
+      - DATE
+      - TIME
+      - DATETIME
+      - NUMBER
+      - NAME
+      - ADDRESS
+      - TABLE
+      - LINK
+      default: TEXT
+    PageRange:
+      type: object
+      properties:
+        start_index:
+          type: integer
+        end_index:
+          type:
+          - integer
+          - 'null'
+      required:
+      - start_index
+      - end_index
+    WebhookCategory:
+      type: string
+      enum:
+      - CUSTOM
+      - ZAPIER
+      - MAKE
+      - FLOW
+      - N8N
+    WebhookEventEnum:
+      type: string
+      enum:
+      - document.processed
+      - document.processed.flattened
+      - document.template_needed
+      - document.export_failed
+      - table.processed
+    ParserFieldDiet:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID
+          readOnly: true
+        name:
+          type: string
+          description: name
+          readOnly: true
+      required:
+      - id
+      - name
+      readOnly: true
+    DecimalSeparatorEnum:
+      type: string
+      enum:
+      - .
+      - ','
+      default: .
+    DocumentStatusEnum:
+      type: string
+      enum:
+      - INCOMING
+      - ANALYZING
+      - PROGRESS
+      - PARSEDOK
+      - PARSEDKO
+      - QUOTAEXC
+      - SKIPPED
+      - SPLIT
+      - EXPORTKO
+      - TRANSKO
+      - INVALID
+      readOnly: true
+    InputDateFormatEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - MONTH_FIRST
+      - DAY_FIRST
+    AIEngineEnum:
+      type: string
+      enum:
+      - DISABLED
+      - GCP_AI_2
+      - GCP_AI_2_5
+      default: DISABLED
+    TemplateEngineEnum:
+      type: string
+      enum:
+      - TXT
+      - OCR
+      default: TXT
     ParserDiet:
       type: object
       properties:
@@ -2570,115 +2938,6 @@ components:
             - name
             $ref: '#/components/schemas/ParserFieldDiet'
           readOnly: true
-    TemplateDiet:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        parser:
-          type: integer
-        engine:
-          $ref: '#/components/schemas/TemplateEngineEnum'
-        action:
-          $ref: '#/components/schemas/TemplateActionEnum'
-        status:
-          $ref: '#/components/schemas/TemplateStatusEnum'
-        margin:
-          type: object
-          properties:
-            default:
-              type: object
-              properties:
-                lower:
-                  type: integer
-                upper:
-                  type: integer
-        document_count:
-          type: integer
-          readOnly: true
-        last_activity:
-          type: string
-          format: date-time
-          readOnly: true
-        decimal_separator:
-          anyOf:
-          - $ref: '#/components/schemas/DecimalSeparatorEnum'
-          - type: 'null'
-        input_date_format:
-          anyOf:
-          - $ref: '#/components/schemas/InputDateFormatEnum'
-          - type: 'null'
-      required:
-      - last_activity
-      - document_count
-      - status
-      - action
-      - engine
-      - parser
-      - id
-      - name
-    Webhook:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        event:
-          $ref: '#/components/schemas/WebhookEventEnum'
-        target:
-          type: string
-          format: uri
-        name:
-          type: string
-        headers:
-          type:
-          - object
-          - 'null'
-          properties: {}
-        category:
-          $ref: '#/components/schemas/WebhookCategory'
-        parser_field_set:
-          type: array
-          items:
-            type: string
-          description: Only for table.processed events
-      required:
-      - id
-      - event
-      - target
-      - category
-    InputDateFormatEnum:
-      type:
-      - string
-      - 'null'
-      enum:
-      - MONTH_FIRST
-      - DAY_FIRST
-    AIEngineEnum:
-      type: string
-      enum:
-      - DISABLED
-      - GCP_AI_2
-      - GCP_AI_2_5
-      default: DISABLED
-    ParserFieldDiet:
-      type: object
-      properties:
-        id:
-          type: string
-          description: ID
-          readOnly: true
-        name:
-          type: string
-          description: name
-          readOnly: true
-      required:
-      - id
-      - name
-      readOnly: true
     ExportConfig:
       type: object
       properties:
@@ -2723,127 +2982,20 @@ components:
       - items
       - csv_download
       - xls_download
-    DecimalSeparatorEnum:
+    TemplateActionEnum:
       type: string
       enum:
-      - .
-      - ','
-      default: .
-    TemplateEngineEnum:
-      type: string
-      enum:
-      - TXT
-      - OCR
-      default: TXT
-    TemplateSample:
-      type:
-      - object
-      - 'null'
-      properties:
-        template_id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        sample_count:
-          type: integer
-          readOnly: true
-      required:
-      - template_id
-      - name
-      - sample_count
-      readOnly: true
-    TemplateStatusEnum:
-      type: string
-      enum:
-      - DRAFT
-      - PROD
-      default: PROD
-    ParserFieldFormatEnum:
-      type: string
-      enum:
-      - TEXT
-      - ONELINE
-      - DATE
-      - TIME
-      - DATETIME
-      - NUMBER
-      - NAME
-      - ADDRESS
-      - TABLE
-      - LINK
-      default: TEXT
-    ParserField:
-      type: object
-      properties:
-        id:
-          type: string
-          readOnly: true
-        name:
-          type: string
-        format:
-          $ref: '#/components/schemas/ParserFieldFormatEnum'
-        choice_set:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: List of possible choice values. Only used when format is ONELINE.
-        is_required:
-          type:
-          - boolean
-          - 'null'
-          default: false
-        query:
-          type:
-          - string
-          - 'null'
-          description: Instructions for AI engine
-        json_download:
-          type: string
-          format: uri
-          readOnly: true
-        csv_download:
-          type: string
-          format: uri
-          readOnly: true
-        xls_download:
-          type: string
-          format: uri
-          readOnly: true
-        type:
-          type: string
-          const: FIELD
-          readOnly: true
-        parser_object_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/ParserField'
-          description: Only for TABLE fields
-        used_by_ai:
-          type:
-          - boolean
-          - 'null'
-          description: If false, that field will not be extracted by AI engines
-          default: true
-      required:
-      - id
-      - name
-      - format
-    PageRange:
-      type: object
-      properties:
-        start_index:
-          type: integer
-        end_index:
-          type:
-          - integer
-          - 'null'
-      required:
-      - start_index
-      - end_index
+      - PROCESS
+      - SKIP
+      - DELETE
+      - PROCESS_THEN_DELETE
+      default: PROCESS
+    EmailOrDomain:
+      anyOf:
+      - type: string
+        format: email
+      - type: string
+        format: hostname
     DocumentStatusSourceEnum:
       type:
       - string
@@ -2857,159 +3009,23 @@ components:
       - MANUAL
       - TEMPLATE
       - TRANSFORM
-    DocumentDiet:
-      type: object
-      properties:
-        attached_to:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        id:
-          type: integer
-          readOnly: true
-        match_master_template:
-          type: boolean
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        ocr_ready_url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          readOnly: true
-        original_document_url:
-          type: string
-          format: uri
-          readOnly: true
-        parser:
-          type: integer
-          readOnly: true
-        processed:
-          type: string
-          format: date-time
-          readOnly: true
-        received:
-          type: string
-          format: date-time
-          readOnly: true
-        sample_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateSample'
-          readOnly: true
-        status_source:
-          $ref: '#/components/schemas/DocumentStatusSourceEnum'
-        status:
-          $ref: '#/components/schemas/DocumentStatusEnum'
-        template:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        credits_used:
-          type: integer
-          readOnly: true
-        conventional_credits_used:
-          type: integer
-          readOnly: true
-        ai_credits_used:
-          type: integer
-          readOnly: true
-        is_ai_ready:
-          type: boolean
-          readOnly: true
-        is_ocr_ready:
-          type: boolean
-          readOnly: true
-        is_processable:
-          type: boolean
-          readOnly: true
-        is_splittable:
-          type: boolean
-          readOnly: true
-        is_split:
-          type: boolean
-          readOnly: true
-        json_download_url:
-          type: string
-          format: uri
-          readOnly: true
-        csv_download_url:
-          type: string
-          format: uri
-          readOnly: true
-        xls_download_url:
-          type: string
-          format: uri
-          readOnly: true
-        result:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-          description: Only present when using with_result=true query parameter
-      required:
-      - attached_to
-      - id
-      - match_master_template
-      - name
-      - original_document_url
-      - parser
-      - processed
-      - received
-      - sample_set
-      - status_source
-      - status
-      - template
-      - credits_used
-      - conventional_credits_used
-      - ai_credits_used
-      - is_ai_ready
-      - is_ocr_ready
-      - is_processable
-      - is_splittable
-      - is_split
-      - json_download_url
-      - csv_download_url
-      - xls_download_url
-      - ocr_ready_url
-    DocumentStatusEnum:
-      type: string
-      enum:
-      - INCOMING
-      - ANALYZING
-      - PROGRESS
-      - PARSEDOK
-      - PARSEDKO
-      - QUOTAEXC
-      - SKIPPED
-      - SPLIT
-      - EXPORTKO
-      - TRANSKO
-      - INVALID
-      readOnly: true
-    WebhookCategory:
-      type: string
-      enum:
-      - CUSTOM
-      - ZAPIER
-      - MAKE
-      - FLOW
-      - N8N
-    ParserIdentificationStatusEnum:
-      type:
-      - string
-      - 'null'
-      enum:
-      - REQUESTED
-      - PROGRESS
-      - COMPLETED
-      - MANUAL
-      default: MANUAL
   responses:
+    Not_Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
     Authentication_Error:
       description: ''
       content:
@@ -3030,22 +3046,6 @@ components:
               summary: Authentication failed
               value:
                 non_field_errors: Authentication failed
-    Not_Found:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Document not found:
-              summary: Document not found
-              value:
-                non_field_errors: Not found
   securitySchemes:
     TokenAuth:
       type: apiKey

@@ -78,7 +78,7 @@ modified: '2026-05-25'
 specificationVersion: '0.23'
 apis:
 - aid: parseur:parseur-async-api
-  name: Parseur async API
+  name: Parseur Async API
   description: The async API from Parseur — 7 operation(s) for async.
   humanURL: https://developer.parseur.com/
   baseURL: https://api.parseur.com
