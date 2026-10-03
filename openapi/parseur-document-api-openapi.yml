@@ -330,6 +330,88 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    LogSourceEnum:
+      type: string
+      enum:
+      - DOCUMENT
+      - OCRDOC
+      - WEBHOOK
+      readOnly: true
+    LogStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - INFO
+      - WARNING
+      readOnly: true
+    OcrPage:
+      type: object
+      properties:
+        image:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              readOnly: true
+            width:
+              type: integer
+              readOnly: true
+            height:
+              type: integer
+              readOnly: true
+            content_type:
+              type: string
+              const: image/jpeg
+              readOnly: true
+          required:
+          - url
+          - width
+          - height
+          - content_type
+          readOnly: true
+        position:
+          type: integer
+          readOnly: true
+        included_in_range:
+          type: boolean
+          readOnly: true
+      readOnly: true
+    DocumentStatusEnum:
+      type: string
+      enum:
+      - INCOMING
+      - ANALYZING
+      - PROGRESS
+      - PARSEDOK
+      - PARSEDKO
+      - QUOTAEXC
+      - SKIPPED
+      - SPLIT
+      - EXPORTKO
+      - TRANSKO
+      - INVALID
+      readOnly: true
+    TemplateSample:
+      type:
+      - object
+      - 'null'
+      properties:
+        template_id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        sample_count:
+          type: integer
+          readOnly: true
+      required:
+      - template_id
+      - name
+      - sample_count
+      readOnly: true
     Document:
       type: object
       properties:
@@ -492,101 +574,6 @@ components:
       - conventional_credits_used
       - ai_credits_used
       - sample_set
-    LogSourceEnum:
-      type: string
-      enum:
-      - DOCUMENT
-      - OCRDOC
-      - WEBHOOK
-      readOnly: true
-    OcrPage:
-      type: object
-      properties:
-        image:
-          type: object
-          properties:
-            url:
-              type: string
-              format: uri
-              readOnly: true
-            width:
-              type: integer
-              readOnly: true
-            height:
-              type: integer
-              readOnly: true
-            content_type:
-              type: string
-              const: image/jpeg
-              readOnly: true
-          required:
-          - url
-          - width
-          - height
-          - content_type
-          readOnly: true
-        position:
-          type: integer
-          readOnly: true
-        included_in_range:
-          type: boolean
-          readOnly: true
-      readOnly: true
-    LogStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - INFO
-      - WARNING
-      readOnly: true
-    TemplateSample:
-      type:
-      - object
-      - 'null'
-      properties:
-        template_id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        sample_count:
-          type: integer
-          readOnly: true
-      required:
-      - template_id
-      - name
-      - sample_count
-      readOnly: true
-    DocumentStatusSourceEnum:
-      type:
-      - string
-      - 'null'
-      readOnly: true
-      enum:
-      - AI
-      - AUTO
-      - CSV
-      - METADATA
-      - MANUAL
-      - TEMPLATE
-      - TRANSFORM
-    DocumentStatusEnum:
-      type: string
-      enum:
-      - INCOMING
-      - ANALYZING
-      - PROGRESS
-      - PARSEDOK
-      - PARSEDKO
-      - QUOTAEXC
-      - SKIPPED
-      - SPLIT
-      - EXPORTKO
-      - TRANSKO
-      - INVALID
-      readOnly: true
     Log:
       type: object
       properties:
@@ -649,6 +636,19 @@ components:
       - payload
       - message
       - parser_name
+    DocumentStatusSourceEnum:
+      type:
+      - string
+      - 'null'
+      readOnly: true
+      enum:
+      - AI
+      - AUTO
+      - CSV
+      - METADATA
+      - MANUAL
+      - TEMPLATE
+      - TRANSFORM
   responses:
     Not_Found:
       description: ''

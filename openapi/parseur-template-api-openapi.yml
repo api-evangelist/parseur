@@ -350,12 +350,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DecimalSeparatorEnum:
-      type: string
-      enum:
-      - .
-      - ','
-      default: .
     ParserField:
       type: object
       properties:
@@ -414,57 +408,12 @@ components:
       - id
       - name
       - format
-    DocumentSample:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        comment:
-          type:
-          - string
-          - 'null'
-        is_ocr_ready:
-          type: boolean
-          readOnly: true
-        ocr_ready_url:
-          type: string
-          format: uri
-          readOnly: true
-        ocr_page_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/OcrPage'
-          readOnly: true
     TemplateStatusEnum:
       type: string
       enum:
       - DRAFT
       - PROD
       default: PROD
-    ParserFieldFormatEnum:
-      type: string
-      enum:
-      - TEXT
-      - ONELINE
-      - DATE
-      - TIME
-      - DATETIME
-      - NUMBER
-      - NAME
-      - ADDRESS
-      - TABLE
-      - LINK
-      default: TEXT
-    TemplateEngineEnum:
-      type: string
-      enum:
-      - TXT
-      - OCR
-      default: TXT
     OcrPage:
       type: object
       properties:
@@ -498,6 +447,31 @@ components:
           type: boolean
           readOnly: true
       readOnly: true
+    DocumentSample:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        comment:
+          type:
+          - string
+          - 'null'
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        ocr_ready_url:
+          type: string
+          format: uri
+          readOnly: true
+        ocr_page_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcrPage'
+          readOnly: true
     TemplateActionEnum:
       type: string
       enum:
@@ -513,6 +487,112 @@ components:
       enum:
       - MONTH_FIRST
       - DAY_FIRST
+    DecimalSeparatorEnum:
+      type: string
+      enum:
+      - .
+      - ','
+      default: .
+    TemplateEngineEnum:
+      type: string
+      enum:
+      - TXT
+      - OCR
+      default: TXT
+    TemplateFieldFormatEnum:
+      type: string
+      enum:
+      - HTML
+      - TEXT
+      - RAW
+      - HTML_LIST
+      - TEXT_LIST
+      - HTML_VTABLE
+      - TEXT_VTABLE
+      - HTML_HTABLE
+      - TEXT_HTABLE
+      - OCR_TEXT
+      - OCR_VTABLE
+      - OCR_HTABLE
+    ParserFieldFormatEnum:
+      type: string
+      enum:
+      - TEXT
+      - ONELINE
+      - DATE
+      - TIME
+      - DATETIME
+      - NUMBER
+      - NAME
+      - ADDRESS
+      - TABLE
+      - LINK
+      default: TEXT
+    TemplateField:
+      type: object
+      properties:
+        parser_field:
+          $ref: '#/components/schemas/ParserField'
+          description: Only for template fields of type FIELD
+        upper_left_relative_field:
+          type:
+          - string
+          - 'null'
+          description: Only for OCR templates
+        lower_right_relative_field:
+          type:
+          - string
+          - 'null'
+          description: Only for OCR templates
+        format:
+          anyOf:
+          - $ref: '#/components/schemas/TemplateFieldFormatEnum'
+          - type: 'null'
+        id:
+          type: string
+          readOnly: true
+        is_required:
+          type: boolean
+          description: Only for OCR templates
+        name:
+          type: string
+        relative_box:
+          type: object
+          properties:
+            left_x:
+              type: number
+            upper_y:
+              type: number
+            right_x:
+              type: number
+            lower_y:
+              type: number
+            start_page_index:
+              type: integer
+            end_page_index:
+              type: integer
+          required:
+          - left_x
+          - upper_y
+          - right_x
+          - lower_y
+          - start_page_index
+          - end_page_index
+          description: Only for OCR templates
+        type:
+          type: string
+          enum:
+          - FIELD
+          - LABEL
+          - DELIMITER
+          - IGNORED
+        template_object_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateField'
+          description: Only for TABLE fields
+      required:
+      - id
     Template:
       type: object
       properties:
@@ -704,86 +784,6 @@ components:
       - template_object_set
       - template_static_object_set
       - unused_parser_object_set
-    TemplateField:
-      type: object
-      properties:
-        parser_field:
-          $ref: '#/components/schemas/ParserField'
-          description: Only for template fields of type FIELD
-        upper_left_relative_field:
-          type:
-          - string
-          - 'null'
-          description: Only for OCR templates
-        lower_right_relative_field:
-          type:
-          - string
-          - 'null'
-          description: Only for OCR templates
-        format:
-          anyOf:
-          - $ref: '#/components/schemas/TemplateFieldFormatEnum'
-          - type: 'null'
-        id:
-          type: string
-          readOnly: true
-        is_required:
-          type: boolean
-          description: Only for OCR templates
-        name:
-          type: string
-        relative_box:
-          type: object
-          properties:
-            left_x:
-              type: number
-            upper_y:
-              type: number
-            right_x:
-              type: number
-            lower_y:
-              type: number
-            start_page_index:
-              type: integer
-            end_page_index:
-              type: integer
-          required:
-          - left_x
-          - upper_y
-          - right_x
-          - lower_y
-          - start_page_index
-          - end_page_index
-          description: Only for OCR templates
-        type:
-          type: string
-          enum:
-          - FIELD
-          - LABEL
-          - DELIMITER
-          - IGNORED
-        template_object_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/TemplateField'
-          description: Only for TABLE fields
-      required:
-      - id
-    TemplateFieldFormatEnum:
-      type: string
-      enum:
-      - HTML
-      - TEXT
-      - RAW
-      - HTML_LIST
-      - TEXT_LIST
-      - HTML_VTABLE
-      - TEXT_VTABLE
-      - HTML_HTABLE
-      - TEXT_HTABLE
-      - OCR_TEXT
-      - OCR_VTABLE
-      - OCR_HTABLE
   responses:
     Authentication_Error:
       description: ''

@@ -106,53 +106,6 @@ paths:
       operationId: deleteWebhookById
       x-operation-id-source: derived
 components:
-  schemas:
-    Webhook:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        event:
-          $ref: '#/components/schemas/WebhookEventEnum'
-        target:
-          type: string
-          format: uri
-        name:
-          type: string
-        headers:
-          type:
-          - object
-          - 'null'
-          properties: {}
-        category:
-          $ref: '#/components/schemas/WebhookCategory'
-        parser_field_set:
-          type: array
-          items:
-            type: string
-          description: Only for table.processed events
-      required:
-      - id
-      - event
-      - target
-      - category
-    WebhookCategory:
-      type: string
-      enum:
-      - CUSTOM
-      - ZAPIER
-      - MAKE
-      - FLOW
-      - N8N
-    WebhookEventEnum:
-      type: string
-      enum:
-      - document.processed
-      - document.processed.flattened
-      - document.template_needed
-      - document.export_failed
-      - table.processed
   responses:
     Not_Found:
       description: ''
@@ -190,6 +143,53 @@ components:
               summary: Authentication failed
               value:
                 non_field_errors: Authentication failed
+  schemas:
+    Webhook:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        event:
+          $ref: '#/components/schemas/WebhookEventEnum'
+        target:
+          type: string
+          format: uri
+        name:
+          type: string
+        headers:
+          type:
+          - object
+          - 'null'
+          properties: {}
+        category:
+          $ref: '#/components/schemas/WebhookCategory'
+        parser_field_set:
+          type: array
+          items:
+            type: string
+          description: Only for table.processed events
+      required:
+      - id
+      - event
+      - target
+      - category
+    WebhookEventEnum:
+      type: string
+      enum:
+      - document.processed
+      - document.processed.flattened
+      - document.template_needed
+      - document.export_failed
+      - table.processed
+    WebhookCategory:
+      type: string
+      enum:
+      - CUSTOM
+      - ZAPIER
+      - MAKE
+      - FLOW
+      - N8N
   securitySchemes:
     TokenAuth:
       type: apiKey
