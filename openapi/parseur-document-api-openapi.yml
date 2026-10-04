@@ -330,21 +330,68 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    LogSourceEnum:
-      type: string
-      enum:
-      - DOCUMENT
-      - OCRDOC
-      - WEBHOOK
-      readOnly: true
-    LogStatusEnum:
-      type: string
-      enum:
-      - SUCCESS
-      - ERROR
-      - INFO
-      - WARNING
-      readOnly: true
+    Log:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        created:
+          type: string
+          readOnly: true
+          format: date-time
+        code:
+          type: string
+          maxLength: 128
+          readOnly: true
+        document:
+          type: integer
+          readOnly: true
+        document_name:
+          type: string
+          readOnly: true
+        parser:
+          type: integer
+          readOnly: true
+        parser_name:
+          type: string
+          readOnly: true
+        template:
+          type:
+          - integer
+          - 'null'
+          readOnly: true
+        template_name:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/LogStatusEnum'
+        source:
+          $ref: '#/components/schemas/LogSourceEnum'
+        payload:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - created
+      - code
+      - document
+      - document_name
+      - parser
+      - template
+      - template_name
+      - status
+      - source
+      - payload
+      - message
+      - parser_name
     OcrPage:
       type: object
       properties:
@@ -377,40 +424,6 @@ components:
         included_in_range:
           type: boolean
           readOnly: true
-      readOnly: true
-    DocumentStatusEnum:
-      type: string
-      enum:
-      - INCOMING
-      - ANALYZING
-      - PROGRESS
-      - PARSEDOK
-      - PARSEDKO
-      - QUOTAEXC
-      - SKIPPED
-      - SPLIT
-      - EXPORTKO
-      - TRANSKO
-      - INVALID
-      readOnly: true
-    TemplateSample:
-      type:
-      - object
-      - 'null'
-      properties:
-        template_id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        sample_count:
-          type: integer
-          readOnly: true
-      required:
-      - template_id
-      - name
-      - sample_count
       readOnly: true
     Document:
       type: object
@@ -574,68 +587,28 @@ components:
       - conventional_credits_used
       - ai_credits_used
       - sample_set
-    Log:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        created:
-          type: string
-          readOnly: true
-          format: date-time
-        code:
-          type: string
-          maxLength: 128
-          readOnly: true
-        document:
-          type: integer
-          readOnly: true
-        document_name:
-          type: string
-          readOnly: true
-        parser:
-          type: integer
-          readOnly: true
-        parser_name:
-          type: string
-          readOnly: true
-        template:
-          type:
-          - integer
-          - 'null'
-          readOnly: true
-        template_name:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        status:
-          $ref: '#/components/schemas/LogStatusEnum'
-        source:
-          $ref: '#/components/schemas/LogSourceEnum'
-        payload:
-          type:
-          - string
-          - 'null'
-          readOnly: true
-        message:
-          type: string
-          readOnly: true
-      required:
-      - id
-      - created
-      - code
-      - document
-      - document_name
-      - parser
-      - template
-      - template_name
-      - status
-      - source
-      - payload
-      - message
-      - parser_name
+    DocumentStatusEnum:
+      type: string
+      enum:
+      - INCOMING
+      - ANALYZING
+      - PROGRESS
+      - PARSEDOK
+      - PARSEDKO
+      - QUOTAEXC
+      - SKIPPED
+      - SPLIT
+      - EXPORTKO
+      - TRANSKO
+      - INVALID
+      readOnly: true
+    LogSourceEnum:
+      type: string
+      enum:
+      - DOCUMENT
+      - OCRDOC
+      - WEBHOOK
+      readOnly: true
     DocumentStatusSourceEnum:
       type:
       - string
@@ -649,23 +622,34 @@ components:
       - MANUAL
       - TEMPLATE
       - TRANSFORM
+    LogStatusEnum:
+      type: string
+      enum:
+      - SUCCESS
+      - ERROR
+      - INFO
+      - WARNING
+      readOnly: true
+    TemplateSample:
+      type:
+      - object
+      - 'null'
+      properties:
+        template_id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        sample_count:
+          type: integer
+          readOnly: true
+      required:
+      - template_id
+      - name
+      - sample_count
+      readOnly: true
   responses:
-    Not_Found:
-      description: ''
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              non_field_errors:
-                type: string
-            required:
-            - non_field_errors
-          examples:
-            Document not found:
-              summary: Document not found
-              value:
-                non_field_errors: Not found
     Authentication_Error:
       description: ''
       content:
@@ -686,6 +670,22 @@ components:
               summary: Authentication failed
               value:
                 non_field_errors: Authentication failed
+    Not_Found:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              non_field_errors:
+                type: string
+            required:
+            - non_field_errors
+          examples:
+            Document not found:
+              summary: Document not found
+              value:
+                non_field_errors: Not found
   securitySchemes:
     TokenAuth:
       type: apiKey

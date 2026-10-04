@@ -350,6 +350,39 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    OcrPage:
+      type: object
+      properties:
+        image:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              readOnly: true
+            width:
+              type: integer
+              readOnly: true
+            height:
+              type: integer
+              readOnly: true
+            content_type:
+              type: string
+              const: image/jpeg
+              readOnly: true
+          required:
+          - url
+          - width
+          - height
+          - content_type
+          readOnly: true
+        position:
+          type: integer
+          readOnly: true
+        included_in_range:
+          type: boolean
+          readOnly: true
+      readOnly: true
     ParserField:
       type: object
       properties:
@@ -408,70 +441,6 @@ components:
       - id
       - name
       - format
-    TemplateStatusEnum:
-      type: string
-      enum:
-      - DRAFT
-      - PROD
-      default: PROD
-    OcrPage:
-      type: object
-      properties:
-        image:
-          type: object
-          properties:
-            url:
-              type: string
-              format: uri
-              readOnly: true
-            width:
-              type: integer
-              readOnly: true
-            height:
-              type: integer
-              readOnly: true
-            content_type:
-              type: string
-              const: image/jpeg
-              readOnly: true
-          required:
-          - url
-          - width
-          - height
-          - content_type
-          readOnly: true
-        position:
-          type: integer
-          readOnly: true
-        included_in_range:
-          type: boolean
-          readOnly: true
-      readOnly: true
-    DocumentSample:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          readOnly: true
-        comment:
-          type:
-          - string
-          - 'null'
-        is_ocr_ready:
-          type: boolean
-          readOnly: true
-        ocr_ready_url:
-          type: string
-          format: uri
-          readOnly: true
-        ocr_page_set:
-          type: array
-          items:
-            $ref: '#/components/schemas/OcrPage'
-          readOnly: true
     TemplateActionEnum:
       type: string
       enum:
@@ -480,40 +449,6 @@ components:
       - DELETE
       - PROCESS_THEN_DELETE
       default: PROCESS
-    InputDateFormatEnum:
-      type:
-      - string
-      - 'null'
-      enum:
-      - MONTH_FIRST
-      - DAY_FIRST
-    DecimalSeparatorEnum:
-      type: string
-      enum:
-      - .
-      - ','
-      default: .
-    TemplateEngineEnum:
-      type: string
-      enum:
-      - TXT
-      - OCR
-      default: TXT
-    TemplateFieldFormatEnum:
-      type: string
-      enum:
-      - HTML
-      - TEXT
-      - RAW
-      - HTML_LIST
-      - TEXT_LIST
-      - HTML_VTABLE
-      - TEXT_VTABLE
-      - HTML_HTABLE
-      - TEXT_HTABLE
-      - OCR_TEXT
-      - OCR_VTABLE
-      - OCR_HTABLE
     ParserFieldFormatEnum:
       type: string
       enum:
@@ -593,6 +528,59 @@ components:
           description: Only for TABLE fields
       required:
       - id
+    InputDateFormatEnum:
+      type:
+      - string
+      - 'null'
+      enum:
+      - MONTH_FIRST
+      - DAY_FIRST
+    TemplateStatusEnum:
+      type: string
+      enum:
+      - DRAFT
+      - PROD
+      default: PROD
+    TemplateFieldFormatEnum:
+      type: string
+      enum:
+      - HTML
+      - TEXT
+      - RAW
+      - HTML_LIST
+      - TEXT_LIST
+      - HTML_VTABLE
+      - TEXT_VTABLE
+      - HTML_HTABLE
+      - TEXT_HTABLE
+      - OCR_TEXT
+      - OCR_VTABLE
+      - OCR_HTABLE
+    DocumentSample:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        comment:
+          type:
+          - string
+          - 'null'
+        is_ocr_ready:
+          type: boolean
+          readOnly: true
+        ocr_ready_url:
+          type: string
+          format: uri
+          readOnly: true
+        ocr_page_set:
+          type: array
+          items:
+            $ref: '#/components/schemas/OcrPage'
+          readOnly: true
     Template:
       type: object
       properties:
@@ -784,6 +772,18 @@ components:
       - template_object_set
       - template_static_object_set
       - unused_parser_object_set
+    TemplateEngineEnum:
+      type: string
+      enum:
+      - TXT
+      - OCR
+      default: TXT
+    DecimalSeparatorEnum:
+      type: string
+      enum:
+      - .
+      - ','
+      default: .
   responses:
     Authentication_Error:
       description: ''
