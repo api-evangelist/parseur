@@ -1,0 +1,12 @@
+{
+ "url": "https://api.parseur.com/openapi.json",
+ "requested_url": "https://api.parseur.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 120307,
+ "sha256": "5b74a6a10295dcca027c37d45e7f751083ef64aa57e26d383b697a04b4e64cbb",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
