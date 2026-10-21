@@ -54,3 +54,16 @@
     builder: Pipedream repo (component)
   status: not-a-workflow
   arazzo: null
+- slug: parseur-microsoft-power-automate-power-platform-connectors
+  label: Microsoft Power Automate (power-platform-connectors)
+  partner: microsoft-power-automate
+  partner_name: Microsoft Power Automate (power-platform-connectors)
+  category: connector
+  type: marketplace
+  marketplace: power-platform-connectors
+  channel: partner-built
+  evidence: https://learn.microsoft.com/en-us/connectors/parseur/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
