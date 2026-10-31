@@ -1,4 +1,4 @@
-# Parseur (parseur)
+# Parseur
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,96 +66,115 @@
 
 Parseur is an AI-powered document and email parsing platform headquartered in Singapore that automatically extracts structured data from PDFs, emails, scanned documents, and arbitrary file uploads, then routes the resulting JSON, CSV, or Excel records into downstream systems via webhooks, native integrations, or its REST API. The platform combines Vision AI, Text AI, template-based extraction, OCR, normalization, and field validation behind a forwarding email address per mailbox, and connects to more than 1,000 applications including Zapier, Make, n8n, Power Automate, Google Sheets, Airtable, Salesforce, Excel, and Slack. Parseur exposes a public REST API at https://api.parseur.com with an OpenAPI 3.1 specification covering mailbox (parser) management, document upload and lifecycle, templates, custom export configurations, and webhook subscriptions, secured with a per-account Token-based Authorization header. Pricing is volume-based on pages processed, with a permanent free tier (20 pages/month) and Base, Scale, and Enterprise tiers that scale up to 10 million pages per month.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/parseur/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/parseur/refs/heads/main/apis.yml)
+**Areas:** Artificial Intelligence · Document Parsing · Document Processing · Document Extraction · Email Parsing · OCR · Data Extraction · Vision AI · Automation · Webhook · Mailboxes · Software-as-a-Service
 
-## Scope
+## Parseur on APIs.io
 
-- **Type:** Index
-- **Position:** Provider
-- **Access:** 3rd-Party
+Everything profiled for Parseur is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/parseur/](https://apis.io/providers/parseur/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (6)
 
-- AI
-- Artificial Intelligence
-- Document Parsing
-- Document Processing
-- Document Extraction
-- Email Parsing
-- OCR
-- Data Extraction
-- Vision AI
-- Automation
-- Webhooks
-- Mailboxes
-- SaaS
+- [Parseur Async API](https://apis.io/apis/parseur/parseur-async-api/) — The async API from Parseur — 7 operation(s) for async.
+- [Parseur Bootstrap API](https://apis.io/apis/parseur/parseur-bootstrap-api/) — The Bootstrap API from Parseur — 1 operation(s) for bootstrap.
+- [Parseur Document API](https://apis.io/apis/parseur/parseur-document-api/) — The Document API from Parseur — 3 operation(s) for document.
+- [Parseur Parser API](https://apis.io/apis/parseur/parseur-parser-api/) — The Parser API from Parseur — 8 operation(s) for parser.
+- [Parseur Template API](https://apis.io/apis/parseur/parseur-template-api/) — The Template API from Parseur — 1 operation(s) for template.
+- [Parseur Webhook API](https://apis.io/apis/parseur/parseur-webhook-api/) — The Webhook API from Parseur — 2 operation(s) for webhook.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-25
-- **Modified:** 2026-05-25
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### Parseur API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-The Parseur REST API exposes 29 operations across mailboxes (parsers), documents, templates, custom downloads (export configs), webhooks, and account bootstrap. Documents can be ingested as binary uploads to /parser/{id}/upload or as email/text payloads to /email; parsing is asynchronous, with results retrievable via /document/{id} once status transitions to processed. Webhooks deliver real-time events to your endpoint and can be enabled/disabled per mailbox. Authentication uses a Token-prefixed Authorization header carrying the account API key from the Parseur Account Overview. Base URL is https://api.parseur.com and rate limits are 5 requests/second per IP with a burst of 20.
+- [Parseur Agentic Access](https://apis.io/agentic-access/parseur/parseur-agentic-access/)
 
-- **Human URL:** [https://developer.parseur.com/](https://developer.parseur.com/)
-- **Base URL:** `https://api.parseur.com`
+#### Collections (7)
 
-#### Tags
+Postman and Open Collection request collections.
 
-- Documents
-- Mailboxes
-- Templates
-- Webhooks
-- Exports
-- AI
-- OCR
+- [Parseur](https://apis.io/collections/parseur/open-parseur/)
+- [Parseur async API](https://apis.io/collections/parseur/open-parseur-async-api/)
+- [Parseur async Bootstrap API](https://apis.io/collections/parseur/open-parseur-bootstrap-api/)
+- [Parseur async Document API](https://apis.io/collections/parseur/open-parseur-document-api/)
+- [Parseur async Parser API](https://apis.io/collections/parseur/open-parseur-parser-api/)
+- [Parseur async Template API](https://apis.io/collections/parseur/open-parseur-template-api/)
+- [Parseur async Webhook API](https://apis.io/collections/parseur/open-parseur-webhook-api/)
 
-#### Properties
+#### Security (3)
 
-- [Documentation](https://developer.parseur.com/)
-- [Documentation](https://help.parseur.com/en/articles/3566128-use-parseur-document-parsing-api)
-- [Documentation](https://help.parseur.com/en/articles/3566112-send-documents-to-parseur-using-the-api)
-- [OpenAPI](openapi/parseur-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/parseur.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/parseur.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [SDK](https://github.com/parseur/parseur-py)
-- [Authentication](https://developer.parseur.com/)
-- [Rate Limits](https://developer.parseur.com/)
-- [Webhooks](https://developer.parseur.com/)
+Authentication, trust centre, and vulnerability disclosure.
 
-## Common Properties
+- [Parseur Authentication](https://apis.io/security/parseur/parseur-authentication/)
+- [Parseur Domain Security](https://apis.io/security/parseur/parseur-domain-security/)
+- [Parseur Vulnerability Disclosure](https://apis.io/security/parseur/parseur-vulnerability-disclosure/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://parseur.com)
-- [Portal](https://app.parseur.com)
-- [Sign Up](https://app.parseur.com/accounts/signup/)
-- [Login](https://app.parseur.com/accounts/login/)
 - [Documentation](https://developer.parseur.com/)
-- [Support Center](https://help.parseur.com/)
-- [OpenAPI](https://api.parseur.com/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [A P I Keys](https://app.parseur.com/account/api-keys)
-- [About](https://parseur.com/about)
-- [Blog](https://parseur.com/blog/)
 - [Pricing](https://parseur.com/pricing)
-- [Integrations](https://parseur.com/integrations)
-- [Contact](https://parseur.com/contact)
-- [Careers](https://parseur.com/jobs)
-- [Terms of Service](https://parseur.com/terms)
-- [Privacy Policy](https://parseur.com/privacy)
+- [Blog](https://parseur.com/blog/)
 - [Security](https://help.parseur.com/en/articles/4578268-security-and-privacy-at-parseur)
-- [Status Page](https://status.parseur.com)
-- [Git Hub](https://github.com/parseur)
-- [Twitter](https://twitter.com/parseur)
-- [LinkedIn](https://www.linkedin.com/company/parseur.com)
-- [YouTube](https://www.youtube.com/@parseur)
-- [Reddit](https://www.reddit.com/r/Parseur/)
-- [Plans](https://parseur.com/pricing)
-- [Rate Limits](https://developer.parseur.com/)
+- [Terms of service](https://parseur.com/terms)
+- [Privacy policy](https://parseur.com/privacy)
+- [Status](https://status.parseur.com)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 40.8** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 51.0 |
+| Contract governance | 0.0 |
+| Operational transparency | 39.5 |
+| Developer ergonomics | 40.5 |
+| Access clarity | 38.2 |
+
+**Agent readiness 30.9** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | unknown |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 23.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/parseur/](https://apis.io/providers/parseur/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Parseur: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/parseur/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
